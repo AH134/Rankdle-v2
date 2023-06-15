@@ -1,0 +1,74 @@
+#wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid rgb(82, 82, 82);
+  height: 5rem;
+  padding: 0 2rem 0 2rem;
+}
+.button-background {
+  display: flex;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+
+.button-background:hover {
+  cursor: pointer;
+  background-color: rgba(128, 128, 128, 0.459);
+}
+
+#sidebar {
+  position: fixed;
+  transition: all 0.2s;
+  transform: translateX(-200%) translateY(22.6rem);
+  border: 2px solid rgb(82, 82, 82);
+  border-left: none;
+  background-color: #121212;
+  width: 25rem;
+  min-height: 40rem;
+}
+
+.active {
+  transform: translate(-2rem) translateY(22.6rem) !important;
+}
+
+#title {
+  color: white;
+  font-size: 1.5rem;
+  letter-spacing: 0.3rem;
+}
+
+#title h1 {
+  font-weight: bold;
+}
+
+#navbar-list {
+  align-items: center;
+  list-style: none;
+  display: flex;
+}
+.navbar-items {
+  text-align: center;
+  margin: 5px;
+}
+
+.button-subtitle {
+  position: fixed;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  background-color: rgba(128, 128, 128, 0.459);
+  width: 100px;
+  height: 50px;
+  transform: translateX(-25px) translatey(25px);
+  transition: all 0.2s ease-in-out;
+}
+
+.button-background:hover + .button-subtitle {
+  display: flex;
+}

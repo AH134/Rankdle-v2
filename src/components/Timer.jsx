@@ -5,11 +5,11 @@ const Timer = () => {
   const countdown = useCountdowntimer();
 
   return (
-    <>
+    <div>
       <span>{formatTime(countdown.hours)}</span>:
       <span>{formatTime(countdown.minutes)}</span>:
       <span>{formatTime(countdown.seconds)}</span>
-    </>
+    </div>
   );
 };
 
