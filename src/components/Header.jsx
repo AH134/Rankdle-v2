@@ -48,19 +48,21 @@ const NavbarItem = ({
   return (
     <>
       <li className={styles["navbar-items"]}>
-        {type === "link" ? (
-          <Link to={`/${route}`} className={styles["button-background"]}>
-            <img
-              src={`images/header/${img}-icon.svg`}
-              alt={img}
-              width={`${imgSize}px`}
-            ></img>
-          </Link>
-        ) : (
-          <Modal img={img} imgSize={imgSize}>
-            {children}
-          </Modal>
-        )}
+        <div className={styles["button-background"]}>
+          {type === "link" ? (
+            <Link to={`/${route}`} className={styles["button-background"]}>
+              <img
+                src={`images/header/${img}-icon.svg`}
+                alt={img}
+                width={`${imgSize}px`}
+              ></img>
+            </Link>
+          ) : (
+            <Modal img={img} imgSize={imgSize}>
+              {children}
+            </Modal>
+          )}
+        </div>
 
         <div className={styles["button-subtitle"]}>
           <p>{hoverText}</p>
