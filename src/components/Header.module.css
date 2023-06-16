@@ -8,8 +8,10 @@
 }
 
 .button-background {
+  position: relative;
   display: flex;
   justify-content: center;
+  align-items: center;
   background-color: transparent;
   border: none;
   border-radius: 50%;
@@ -48,7 +50,7 @@
 #sidebar {
   position: absolute;
   transition: all 0.2s;
-  transform: translateX(-200%) translateY(17.1rem);
+  transform: translateX(-200%) translateY(17rem);
   border: 2px solid rgb(82, 82, 82);
   border-left: none;
   background-color: #121212;
@@ -57,7 +59,7 @@
 }
 
 .active {
-  transform: translate(-2rem) translateY(17.1rem) !important;
+  transform: translateX(-2rem) translateY(17rem) !important;
 }
 
 #title {
@@ -86,11 +88,39 @@
   margin: 2px;
 }
 
-.modal {
+.mask-modal {
+  overflow: hidden;
   position: absolute;
-  margin: 5% auto;
-  width: 25rem;
-  height: 25rem;
+  display: flex;
+  visibility: collapse;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  height: 100%;
+  width: 100%;
+}
+
+.modal-wrapper {
+  background-color: #121212;
+  border: 2px solid rgb(82, 82, 82);
+  border-radius: 15px;
+  height: 40rem;
+  width: 35rem;
+  transform: translateY(200%);
+  transition: all 0.2s;
+}
+
+.modal-animation {
+  transform: translateY(0%);
+}
+
+.modal-container {
+}
+
+.modal-active {
+  visibility: visible !important;
 }
 
 /* 
