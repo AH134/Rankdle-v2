@@ -1,0 +1,36 @@
+.wrapper {
+  border-bottom: 2px solid rgb(82, 82, 82);
+}
+
+.container {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 0 5rem 0 5rem;
+  height: 4.5rem;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: bold;
+  letter-spacing: 0.3rem;
+
+  transition: all 0.2s;
+}
+
+.title:hover {
+  cursor: pointer;
+  font-size: 3.3rem;
+}
+
+.hamburgerMenu {
+  visibility: visible;
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+.hamburgerMenu:hover {
+  background-color: gray;
+}

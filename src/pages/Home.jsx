@@ -1,11 +1,12 @@
-import Header from "../components/Header";
+import Timer from "../components/Timer";
 
 const Home = () => {
   return (
-    <>
-      <Header />
-      <div>Home Page</div>
-    </>
+    <div>
+      <p>This is the home page</p>
+      Reset Timer:
+      <Timer />
+    </div>
   );
 };
 
