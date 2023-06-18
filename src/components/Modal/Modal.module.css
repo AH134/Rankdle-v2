@@ -18,8 +18,9 @@
   position: absolute;
   background-color: #121212;
   border: 2px solid rgb(82, 82, 82);
-  height: 30rem;
-  width: 25rem;
+  border-radius: 0.5rem;
+  height: 40rem;
+  width: 35rem;
 
   transform: translateY(200%);
   transition: all 0.2s;

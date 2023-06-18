@@ -1,5 +1,7 @@
 import styles from "./Root.module.css";
-import { Header } from "../../components/";
+import Header from "./Header/Header";
+import Sidebar from "./Sidebar/Sidebar";
+import { Outlet } from "react-router-dom";
 
 const Root = () => {
   return (
@@ -7,8 +9,10 @@ const Root = () => {
       <header className={styles.header}>
         <Header />
       </header>
-      <aside className={styles.sidebar}></aside>
-      <main className={styles.hero}> the hero/main container</main>
+      <Sidebar className={styles.sidebar} />
+      <main className={styles.main}>
+        <Outlet />
+      </main>
     </div>
   );
 };

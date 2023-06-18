@@ -13,14 +13,16 @@
 }
 
 .title {
+  color: inherit;
+  letter-spacing: 0.3rem;
+}
+.title h1 {
   font-size: 3rem;
   font-weight: bold;
-  letter-spacing: 0.3rem;
-
   transition: all 0.2s;
 }
 
-.title:hover {
+.title h1:hover {
   cursor: pointer;
   font-size: 3.3rem;
 }
@@ -29,8 +31,10 @@
   visibility: visible;
   border-radius: 50%;
   background-color: transparent;
+  width: 48px;
+  margin-right: 152px;
 }
 
 .hamburgerMenu:hover {
-  background-color: gray;
+  background-color: rgba(120, 120, 120, 0.5);
 }

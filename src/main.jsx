@@ -6,6 +6,8 @@ import "./index.css";
 import Root from "./pages/Root/Root";
 import Error from "./pages/Error";
 import Home from "./pages/Home";
+import Game from "./pages/Game";
+import { loader as gameLoader } from "./pages/Game";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +21,11 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <Home />,
+          },
+          {
+            path: "games/:name",
+            element: <Game />,
+            loader: gameLoader,
           },
         ],
       },

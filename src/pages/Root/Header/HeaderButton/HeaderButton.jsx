@@ -1,13 +1,19 @@
 import { Link } from "react-router-dom";
-import styles from "./NavbarItem.module.css";
+import styles from "./HeaderButton.module.css";
 
-const NavbarItem = ({ type, iconName, iconSize, hoverText, handleClick }) => {
+const NavbarItem = ({
+  type,
+  iconName,
+  iconSize,
+  hoverText = "",
+  handleClick,
+}) => {
   return (
     <li>
       {type === "link" ? (
         <Link to={iconName} className={styles.navbarItem}>
           <img
-            src={`images/header/${iconName}-icon.svg`}
+            src={`../images/header/${iconName}-icon.svg`}
             alt={iconName}
             width={iconSize}
           />
@@ -15,15 +21,17 @@ const NavbarItem = ({ type, iconName, iconSize, hoverText, handleClick }) => {
       ) : (
         <button className={styles.navbarItem} onClick={handleClick}>
           <img
-            src={`images/header/${iconName}-icon.svg`}
+            src={`../images/header/${iconName}-icon.svg`}
             alt={iconName}
             width={iconSize}
           />
         </button>
       )}
-      <div className={styles.hoverText}>
-        <h1>{hoverText}</h1>
-      </div>
+      {hoverText !== "" ? (
+        <div className={styles.hoverText}>
+          <h1>{hoverText}</h1>
+        </div>
+      ) : null}
     </li>
   );
 };

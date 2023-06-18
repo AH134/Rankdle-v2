@@ -3,6 +3,7 @@ import styles from "./Modal.module.css";
 
 const Modal = ({ context, isOpen, setIsOpen, children }) => {
   const modalRef = useRef(0);
+  const handleModalClose = () => setIsOpen(false);
 
   return (
     <div
@@ -14,7 +15,7 @@ const Modal = ({ context, isOpen, setIsOpen, children }) => {
       }
       onClick={(e) => {
         if (e.target === modalRef.current) {
-          setIsOpen(false);
+          handleModalClose();
         }
       }}
     >
@@ -27,8 +28,11 @@ const Modal = ({ context, isOpen, setIsOpen, children }) => {
       >
         <div className={styles.modalTitle}>
           <h1>{context}</h1>
-          <button className={styles.closeButton}>X</button>
+          <button className={styles.closeButton} onClick={handleModalClose}>
+            X
+          </button>
         </div>
+        <hr />
         <div>{children}</div>
       </div>
     </div>

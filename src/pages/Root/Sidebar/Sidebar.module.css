@@ -1,0 +1,20 @@
+.navbarList {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbarItem {
+  border-radius: 0.3rem;
+}
+
+.navbarItem:hover {
+  background-color: rgba(120, 120, 120, 0.5);
+}
+
+.active {
+  background-color: rgba(120, 120, 120, 0.5);
+}
+
+.divider {
+  margin: 0.5rem 0 0.5rem 0;
+}
