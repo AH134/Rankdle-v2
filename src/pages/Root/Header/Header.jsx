@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
-import HeaderNavbar from "./HeaderNavbar/HeaderNavbar";
 import HeaderButton from "./HeaderButton/HeaderButton";
 import { Modal } from "../../../components";
+import Sidebar from "../Sidebar/Sidebar";
 import Hamburger from "hamburger-react";
 
 const About = () => {
@@ -19,55 +19,99 @@ const Account = () => {
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState("");
+  const [isSidebarOpen, setisSidebarOpen] = useState(false);
 
   return (
-    <div className={styles.wrapper}>
+    <>
       <div className={styles.container}>
-        <div className={styles.hamburgerMenu}>
-          <Hamburger size={25} />
+        <div className={styles.leftSection}>
+          <Hamburger
+            size={25}
+            toggle={setisSidebarOpen}
+            toggled={isSidebarOpen}
+          />
+          <Sidebar
+            className={`${styles.sidebar} ${
+              isSidebarOpen ? styles.active : ""
+            }`}
+          >
+            <ul className={styles.rightSectionInSidbar}>
+              <HeaderButton type="link" iconName={"submit"} iconSize={"25px"} />
+              <HeaderButton
+                iconName={"about"}
+                iconSize={"25px"}
+                handleClick={() => {
+                  setIsModalOpen(true);
+                  setModalContent("How to Play");
+                }}
+              />
+              <HeaderButton
+                iconName={"settings"}
+                iconSize={"25px"}
+                handleClick={() => {
+                  setIsModalOpen(true);
+                  setModalContent("Settings");
+                }}
+              />
+              <HeaderButton
+                iconName={"account"}
+                iconSize={"30px"}
+                handleClick={() => {
+                  setIsModalOpen(true);
+                  setModalContent("Account");
+                }}
+              />
+            </ul>
+          </Sidebar>
         </div>
 
-        <div>
-          <Link className={styles.title}>
-            <h1>Rankdle V2</h1>
-          </Link>
+        <div className={styles.middleSection}>
+          <div>
+            <Link className={styles.title}>
+              <h1>Rankdle V2</h1>
+            </Link>
+          </div>
         </div>
 
-        <HeaderNavbar>
-          <HeaderButton
-            type="link"
-            iconName={"submit"}
-            iconSize={"25px"}
-            hoverText={"Submit Clip"}
-          />
-          <HeaderButton
-            iconName={"about"}
-            iconSize={"25px"}
-            hoverText={"About"}
-            handleClick={() => {
-              setIsModalOpen(true);
-              setModalContent("How to Play");
-            }}
-          />
-          <HeaderButton
-            iconName={"settings"}
-            iconSize={"25px"}
-            hoverText={"Settings"}
-            handleClick={() => {
-              setIsModalOpen(true);
-              setModalContent("Settings");
-            }}
-          />
-          <HeaderButton
-            iconName={"account"}
-            iconSize={"30px"}
-            hoverText={"Account"}
-            handleClick={() => {
-              setIsModalOpen(true);
-              setModalContent("Account");
-            }}
-          />
-        </HeaderNavbar>
+        <div className={styles.rightSection}>
+          <nav>
+            <ul className={styles.navbarList}>
+              <HeaderButton
+                type="link"
+                iconName={"submit"}
+                iconSize={"25px"}
+                hoverText={"Submit Clip"}
+              />
+              <HeaderButton
+                iconName={"about"}
+                iconSize={"25px"}
+                hoverText={"About"}
+                handleClick={() => {
+                  setIsModalOpen(true);
+                  setModalContent("How to Play");
+                }}
+              />
+              <HeaderButton
+                iconName={"settings"}
+                iconSize={"25px"}
+                hoverText={"Settings"}
+                handleClick={() => {
+                  setIsModalOpen(true);
+                  setModalContent("Settings");
+                }}
+              />
+              <HeaderButton
+                iconName={"account"}
+                iconSize={"30px"}
+                hoverText={"Account"}
+                handleClick={() => {
+                  setIsModalOpen(true);
+                  setModalContent("Account");
+                }}
+              />
+            </ul>
+          </nav>
+        </div>
       </div>
 
       <Modal
@@ -83,7 +127,7 @@ const Header = () => {
           <Settings />
         )}
       </Modal>
-    </div>
+    </>
   );
 };
 

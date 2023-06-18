@@ -3,6 +3,9 @@
   flex-direction: column;
 }
 
+.divider {
+  margin: 0.5rem 0 0.5rem 0;
+}
 .navbarItem {
   border-radius: 0.3rem;
 }
@@ -13,8 +16,4 @@
 
 .active {
   background-color: rgba(120, 120, 120, 0.5);
-}
-
-.divider {
-  margin: 0.5rem 0 0.5rem 0;
 }

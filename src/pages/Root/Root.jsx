@@ -5,15 +5,18 @@ import { Outlet } from "react-router-dom";
 
 const Root = () => {
   return (
-    <div className={styles.app}>
+    <>
       <header className={styles.header}>
         <Header />
       </header>
-      <Sidebar className={styles.sidebar} />
-      <main className={styles.main}>
-        <Outlet />
-      </main>
-    </div>
+      <div className={styles.mainContainer}>
+        <Sidebar className={styles.sidebar}></Sidebar>
+        <main className={styles.main}>
+          <Outlet />
+        </main>
+        <div className={styles.stats}>stats side</div>
+      </div>
+    </>
   );
 };
 

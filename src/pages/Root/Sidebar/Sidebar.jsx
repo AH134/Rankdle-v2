@@ -3,7 +3,7 @@ import styles from "./Sidebar.module.css";
 import SidebarUser from "./SIdebarUser/SidebarUser";
 import SidebarButton from "./SidebarButton/SidebarButton";
 
-const Sidebar = ({ className }) => {
+const Sidebar = ({ className, children }) => {
   const [activePage, setActivePage] = useState("/");
 
   const navbarItemStyle = (to) => {
@@ -15,6 +15,7 @@ const Sidebar = ({ className }) => {
       <SidebarUser />
       <hr className={styles.divider} />
       <nav>
+        {children}
         <ul className={styles.navbarList}>
           <li className={navbarItemStyle("/")}>
             <SidebarButton

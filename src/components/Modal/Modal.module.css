@@ -56,3 +56,10 @@
 .closeButton:hover {
   cursor: pointer;
 }
+
+@media (max-width: 767px) {
+  .modalContainer {
+    height: 35rem;
+    width: 20rem;
+  }
+}

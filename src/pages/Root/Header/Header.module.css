@@ -1,40 +1,107 @@
-.wrapper {
-  border-bottom: 2px solid rgb(82, 82, 82);
-}
-
 .container {
-  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  margin: 0 5rem 0 5rem;
-  height: 4.5rem;
+  height: 100%;
+  padding: 0 3rem;
+}
+
+.leftSection {
+  position: relative;
+  display: none;
+  flex: 1;
+}
+
+.middleSection {
+  flex: 1;
+  text-align: left;
 }
 
 .title {
   color: inherit;
-  letter-spacing: 0.3rem;
 }
+
 .title h1 {
-  font-size: 3rem;
-  font-weight: bold;
+  font-size: 2.2rem;
+  letter-spacing: 0.2rem;
   transition: all 0.2s;
 }
 
 .title h1:hover {
-  cursor: pointer;
-  font-size: 3.3rem;
+  font-size: 2.3rem;
 }
 
-.hamburgerMenu {
-  visibility: visible;
-  border-radius: 50%;
-  background-color: transparent;
-  width: 48px;
-  margin-right: 152px;
+.rightSection {
+  flex: 1;
 }
 
-.hamburgerMenu:hover {
-  background-color: rgba(120, 120, 120, 0.5);
+.navbarList {
+  display: flex;
+  justify-content: end;
+}
+
+.sidebar {
+  position: absolute;
+  overflow: scroll;
+  top: 4rem;
+  left: -3rem;
+  background-color: #121212;
+  width: 15rem;
+  max-height: 30rem;
+  border-right: 2px solid rgb(82, 82, 82);
+  border-top: 1px solid rgb(82, 82, 82);
+  border-bottom: 2px solid rgb(82, 82, 82);
+  transform: translateX(-200%);
+  transition: all 0.2s;
+}
+
+.active {
+  transform: translateX(0%);
+}
+
+.rightSectionInSidbar {
+  display: flex;
+  justify-content: center;
+  margin: 0.3rem 0;
+  border-bottom: 1px solid rgb(82, 82, 82);
+}
+
+@media (max-width: 767px) {
+  .leftSection {
+    flex: 1;
+    display: block;
+  }
+
+  .middleSection {
+    flex: 2;
+    align-items: center;
+  }
+
+  .title h1 {
+    font-size: 2rem;
+    letter-spacing: normal;
+  }
+
+  .rightSection {
+    display: none;
+  }
+
+  .leftSection {
+    display: block;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .leftSection {
+    display: block;
+  }
+
+  .middleSection {
+    align-items: center;
+  }
+
+  .title h1 {
+    letter-spacing: normal;
+  }
 }
