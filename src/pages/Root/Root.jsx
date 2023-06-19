@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { Outlet } from "react-router-dom";
 import styles from "./Root.module.css";
 import Header from "./Header/Header";
 import Sidebar from "./Sidebar/Sidebar";
-import { Outlet } from "react-router-dom";
+import useActivePage from "../../hooks/useActivePage";
 
 const Root = () => {
-  const [activePage, setActivePage] = useState("/");
+  const [activePage, setActivePage] = useActivePage();
 
   return (
     <>

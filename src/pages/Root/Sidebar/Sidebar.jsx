@@ -61,7 +61,7 @@ const Sidebar = ({ className, children, setActivePage, activePage }) => {
               alt="csgo-icon"
               width={"30px"}
               label={"Counter-Strike: GO"}
-              handleClick={() => setActivePage("/games/csgp")}
+              handleClick={() => setActivePage("/games/csgo")}
             />
           </li>
           <hr className={styles.divider} />
@@ -70,9 +70,19 @@ const Sidebar = ({ className, children, setActivePage, activePage }) => {
               type="link"
               to={"https://github.com/AH134/Rankdle-v2"}
               src="../images/sidebar/github-icon.svg"
-              alt="apex-icon"
+              alt="github-icon"
               width={"30px"}
-              label={"Github"}
+              label={"Source Code"}
+            />
+          </li>
+          <li className={styles.navbarItem}>
+            <SidebarButton
+              type="link"
+              to={"https://rankdle.com/"}
+              src="../images/sidebar/rankdle-icon.webp"
+              alt="rankdle-icon"
+              width={"25px"}
+              label={"Rankdle"}
             />
           </li>
         </ul>
