@@ -1,11 +1,8 @@
-import { useState } from "react";
 import styles from "./Sidebar.module.css";
 import SidebarUser from "./SIdebarUser/SidebarUser";
 import SidebarButton from "./SidebarButton/SidebarButton";
 
-const Sidebar = ({ className, children }) => {
-  const [activePage, setActivePage] = useState("/");
-
+const Sidebar = ({ className, children, setActivePage, activePage }) => {
   const navbarItemStyle = (to) => {
     return `${styles.navbarItem} ${activePage === to ? styles.active : ""}`;
   };
@@ -55,6 +52,27 @@ const Sidebar = ({ className, children }) => {
               width={"30px"}
               label={"Apex Legends"}
               handleClick={() => setActivePage("/games/apex")}
+            />
+          </li>
+          <li className={navbarItemStyle("/games/csgo")}>
+            <SidebarButton
+              to={"/games/csgo"}
+              src="../images/sidebar/csgo-icon.webp"
+              alt="csgo-icon"
+              width={"30px"}
+              label={"Counter-Strike: GO"}
+              handleClick={() => setActivePage("/games/csgp")}
+            />
+          </li>
+          <hr className={styles.divider} />
+          <li className={styles.navbarItem}>
+            <SidebarButton
+              type="link"
+              to={"https://github.com/AH134/Rankdle-v2"}
+              src="../images/sidebar/github-icon.svg"
+              alt="apex-icon"
+              width={"30px"}
+              label={"Github"}
             />
           </li>
         </ul>

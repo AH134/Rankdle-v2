@@ -1,30 +1,16 @@
 import { Link } from "react-router-dom";
 import styles from "./HeaderButton.module.css";
 
-const NavbarItem = ({
-  type,
-  iconName,
-  iconSize,
-  hoverText = "",
-  handleClick,
-}) => {
+const Button = ({ type, to, src, alt, width, hoverText = "", handleClick }) => {
   return (
     <li>
       {type === "link" ? (
-        <Link to={iconName} className={styles.navbarItem}>
-          <img
-            src={`../images/header/${iconName}-icon.svg`}
-            alt={iconName}
-            width={iconSize}
-          />
+        <Link to={to} className={styles.navbarItem} onClick={handleClick}>
+          <img src={src} alt={alt} width={width} />
         </Link>
       ) : (
-        <button className={styles.navbarItem} onClick={handleClick}>
-          <img
-            src={`../images/header/${iconName}-icon.svg`}
-            alt={iconName}
-            width={iconSize}
-          />
+        <button className={styles.navbarItem}>
+          <img src={src} alt={alt} width={width} onClick={handleClick} />
         </button>
       )}
       {hoverText !== "" ? (
@@ -36,4 +22,4 @@ const NavbarItem = ({
   );
 };
 
-export default NavbarItem;
+export default Button;

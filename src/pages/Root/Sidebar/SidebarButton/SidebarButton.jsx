@@ -11,7 +11,7 @@ const SidebarButton = ({
   handleClick,
 }) => {
   return (
-    <div className={styles.container}>
+    <>
       {type === "game" ? (
         <Link className={styles.linkButton} to={to} onClick={handleClick}>
           <div className={styles.imageContainer}>
@@ -24,9 +24,10 @@ const SidebarButton = ({
           <div className={styles.imageContainer}>
             <img className={styles.image} src={src} alt={alt} width={width} />
           </div>
+          <span>{label}</span>
         </a>
       )}
-    </div>
+    </>
   );
 };
 
