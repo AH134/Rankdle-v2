@@ -2,13 +2,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
 import HeaderButton from "./HeaderButton/HeaderButton";
-import { Modal } from "../../../components";
+import { Modal, AboutPanel } from "../../../components";
 import Sidebar from "../Sidebar/Sidebar";
 import Hamburger from "hamburger-react";
+import useModal from "../../../hooks/useModal";
 
-const About = () => {
-  return <div>About Modal</div>;
-};
 const Settings = () => {
   return <div>Settings Modal</div>;
 };
@@ -17,8 +15,7 @@ const Account = () => {
 };
 
 const Header = ({ setActivePage, activePage }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState("");
+  const [isModalOpen, modalContent, setModalOpen, setModalClose] = useModal();
   const [isSidebarOpen, setisSidebarOpen] = useState(false);
 
   return (
@@ -51,8 +48,7 @@ const Header = ({ setActivePage, activePage }) => {
                 alt={"about-icon"}
                 width={"25px"}
                 handleClick={() => {
-                  setIsModalOpen(true);
-                  setModalContent("How to Play");
+                  setModalOpen("about");
                 }}
               />
               <HeaderButton
@@ -60,8 +56,7 @@ const Header = ({ setActivePage, activePage }) => {
                 alt={"settings-icon"}
                 width={"25px"}
                 handleClick={() => {
-                  setIsModalOpen(true);
-                  setModalContent("Settings");
+                  setModalOpen("settings");
                 }}
               />
               <HeaderButton
@@ -69,8 +64,7 @@ const Header = ({ setActivePage, activePage }) => {
                 alt={"account-icon"}
                 width={"30px"}
                 handleClick={() => {
-                  setIsModalOpen(true);
-                  setModalContent("Account");
+                  setModalOpen("account");
                 }}
               />
             </ul>
@@ -103,8 +97,7 @@ const Header = ({ setActivePage, activePage }) => {
                 width={"25px"}
                 hoverText={"About"}
                 handleClick={() => {
-                  setIsModalOpen(true);
-                  setModalContent("How to Play");
+                  setModalOpen("about");
                 }}
               />
               <HeaderButton
@@ -113,8 +106,7 @@ const Header = ({ setActivePage, activePage }) => {
                 width={"25px"}
                 hoverText={"settings"}
                 handleClick={() => {
-                  setIsModalOpen(true);
-                  setModalContent("Settings");
+                  setModalOpen("settings");
                 }}
               />
               <HeaderButton
@@ -123,8 +115,7 @@ const Header = ({ setActivePage, activePage }) => {
                 width={"30px"}
                 hoverText={"Account"}
                 handleClick={() => {
-                  setIsModalOpen(true);
-                  setModalContent("Account");
+                  setModalOpen("account");
                 }}
               />
             </ul>
@@ -132,14 +123,10 @@ const Header = ({ setActivePage, activePage }) => {
         </div>
       </div>
 
-      <Modal
-        context={modalContent}
-        isOpen={isModalOpen}
-        setIsOpen={setIsModalOpen}
-      >
-        {modalContent === "about" ? (
-          <About />
-        ) : modalContent === "account" ? (
+      <Modal isOpen={isModalOpen} handleModalClose={setModalClose}>
+        {modalContent === "About" ? (
+          <AboutPanel />
+        ) : modalContent === "Account" ? (
           <Account />
         ) : (
           <Settings />

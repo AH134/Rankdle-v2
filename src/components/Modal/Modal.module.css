@@ -24,8 +24,6 @@
 
   transform: translateY(200%);
   transition: all 0.2s;
-
-  padding: 0.5rem;
 }
 
 .modalAnimate {
@@ -36,12 +34,12 @@
   visibility: visible !important;
 }
 
-.modalTitle {
-  display: flex;
-  justify-content: space-between;
-}
-
 /* temporaray butn */
+
+.closeButtonContainer {
+  position: absolute;
+  right: 0;
+}
 
 .closeButton {
   background-color: transparent;

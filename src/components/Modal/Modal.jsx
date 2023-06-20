@@ -1,9 +1,8 @@
 import { useRef } from "react";
 import styles from "./Modal.module.css";
 
-const Modal = ({ context, isOpen, setIsOpen, children }) => {
+const Modal = ({ isOpen, handleModalClose, children }) => {
   const modalRef = useRef(0);
-  const handleModalClose = () => setIsOpen(false);
 
   return (
     <div
@@ -26,14 +25,12 @@ const Modal = ({ context, isOpen, setIsOpen, children }) => {
             : styles.modalContainer
         }
       >
-        <div className={styles.modalTitle}>
-          <h1>{context}</h1>
+        <div className={styles.closeButtonContainer}>
           <button className={styles.closeButton} onClick={handleModalClose}>
             X
           </button>
         </div>
-        <hr />
-        <div>{children}</div>
+        <div className={styles.contentContainer}>{children}</div>
       </div>
     </div>
   );
