@@ -3,13 +3,13 @@ import styles from "./HeaderButton.module.css";
 
 const Button = ({ type, to, src, alt, width, hoverText = "", handleClick }) => {
   return (
-    <li onClick={handleClick}>
+    <li>
       {type === "link" ? (
-        <Link to={to} className={styles.navbarItem}>
+        <Link to={to} className={styles.button} onClick={handleClick}>
           <img src={src} alt={alt} width={width} />
         </Link>
       ) : (
-        <button className={styles.navbarItem}>
+        <button className={styles.button} onClick={handleClick}>
           <img src={src} alt={alt} width={width} />
         </button>
       )}

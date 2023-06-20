@@ -1,16 +1,23 @@
 import { Outlet } from "react-router-dom";
+import { Modal, AboutPanel } from "../../components";
 import styles from "./Root.module.css";
 import Header from "./Header/Header";
 import Sidebar from "./Sidebar/Sidebar";
 import useActivePage from "../../hooks/useActivePage";
+import useModal from "../../hooks/useModal";
 
 const Root = () => {
   const [activePage, setActivePage] = useActivePage();
+  const [isModalOpen, modalContent, setModalOpen, setModalClose] = useModal();
 
   return (
-    <>
+    <div className={styles.container}>
       <header className={styles.header}>
-        <Header setActivePage={setActivePage} activePage={activePage} />
+        <Header
+          setActivePage={setActivePage}
+          activePage={activePage}
+          setModalOpen={setModalOpen}
+        />
       </header>
 
       <div className={styles.mainContainer}>
@@ -26,7 +33,16 @@ const Root = () => {
 
         <div className={styles.stats}>stats side</div>
       </div>
-    </>
+      <Modal isOpen={isModalOpen} handleModalClose={setModalClose}>
+        {modalContent === "about" ? (
+          <AboutPanel />
+        ) : modalContent === "account" ? (
+          <div>hello</div>
+        ) : (
+          <div>hello2</div>
+        )}
+      </Modal>
+    </div>
   );
 };
 

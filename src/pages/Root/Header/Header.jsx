@@ -2,20 +2,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
 import HeaderButton from "./HeaderButton/HeaderButton";
-import { Modal, AboutPanel } from "../../../components";
 import Sidebar from "../Sidebar/Sidebar";
 import Hamburger from "hamburger-react";
-import useModal from "../../../hooks/useModal";
 
-const Settings = () => {
-  return <div>Settings Modal</div>;
-};
-const Account = () => {
-  return <div>Account Modal</div>;
-};
-
-const Header = ({ setActivePage, activePage }) => {
-  const [isModalOpen, modalContent, setModalOpen, setModalClose] = useModal();
+const Header = ({ setActivePage, activePage, setModalOpen }) => {
   const [isSidebarOpen, setisSidebarOpen] = useState(false);
 
   return (
@@ -122,16 +112,6 @@ const Header = ({ setActivePage, activePage }) => {
           </nav>
         </div>
       </div>
-
-      <Modal isOpen={isModalOpen} handleModalClose={setModalClose}>
-        {modalContent === "About" ? (
-          <AboutPanel />
-        ) : modalContent === "Account" ? (
-          <Account />
-        ) : (
-          <Settings />
-        )}
-      </Modal>
     </>
   );
 };
