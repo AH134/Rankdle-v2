@@ -27,10 +27,14 @@ const Modal = ({ isOpen, handleModalClose, children }) => {
       >
         <div className={styles.closeButtonContainer}>
           <button className={styles.closeButton} onClick={handleModalClose}>
-            X
+            <img
+              src="../images/global/close-icon.svg"
+              alt="close-icon"
+              width={"20px"}
+            />
           </button>
         </div>
-        <div className={styles.contentContainer}>{children}</div>
+        {children}
       </div>
     </div>
   );

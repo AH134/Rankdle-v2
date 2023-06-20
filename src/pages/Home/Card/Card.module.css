@@ -1,0 +1,23 @@
+.card {
+  overflow: hidden;
+  border: 1px solid grey;
+  width: 30%;
+  margin: 0.5rem;
+  border-radius: 15px;
+}
+
+.image {
+  display: flex;
+  justify-content: center;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+
+.image img {
+  width: 100%;
+  height: 100%;
+}
+
+.buttonContainer {
+  height: 10rem;
+}

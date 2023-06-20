@@ -8,9 +8,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-
   background-color: rgba(0, 0, 0, 0.2);
-
   height: 100%;
   width: 100%;
 }
@@ -22,6 +20,7 @@
   border-radius: 0.5rem;
   min-height: 30rem;
   min-width: 25rem;
+  height: 20rem;
   opacity: 0;
   transform: translateY(10%);
   transition: all 0.1s ease-in-out;
@@ -44,11 +43,13 @@
 }
 
 .closeButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: transparent;
   border: none;
   color: white;
   font-size: 2rem;
-
   height: 2rem;
   width: 2rem;
 }
@@ -60,6 +61,7 @@
 @media (max-width: 767px) {
   .modalContainer {
     min-height: 70%;
+    height: 70%;
     min-width: 90%;
   }
 }

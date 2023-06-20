@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { Modal, AboutPanel } from "../../components";
+import { Modal, AboutPanel, SettingsPanel } from "../../components";
 import styles from "./Root.module.css";
 import Header from "./Header/Header";
 import Sidebar from "./Sidebar/Sidebar";
@@ -39,7 +39,7 @@ const Root = () => {
         ) : modalContent === "account" ? (
           <div>hello</div>
         ) : (
-          <div>hello2</div>
+          <SettingsPanel />
         )}
       </Modal>
     </div>
