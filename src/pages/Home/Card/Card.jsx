@@ -1,14 +1,19 @@
 import styles from "./Card.module.css";
+import { Link } from "react-router-dom";
 
-const Card = () => {
+const Card = ({ src, alt, name, to }) => {
   return (
     <div className={styles.card}>
       <div className={styles.image}>
-        <img src="../images/__test__/lol-card.webp" alt="card-lol" />
+        <Link to={to}>
+          <img src={src} alt={alt} />
+        </Link>
       </div>
-      <div className={styles.name}>game name</div>
+      <div className={styles.nameContainer}>
+        <p>{name}</p>
+      </div>
       <div className={styles.buttonContainer}>
-        <button>play</button>
+        <Link to={to}>play</Link>
         <span>played indicator</span>
       </div>
     </div>
