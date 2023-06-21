@@ -12,9 +12,17 @@ const Card = ({ src, alt, name, to }) => {
       <div className={styles.nameContainer}>
         <p>{name}</p>
       </div>
-      <div className={styles.buttonContainer}>
-        <Link to={to}>play</Link>
-        <span>played indicator</span>
+      <div className={styles.buttonWrapper}>
+        <div className={styles.buttonContainer}>
+          <button className={styles.button}>
+            <span>Stats</span>
+          </button>
+        </div>
+        <div className={styles.buttonContainer}>
+          <Link to={to} className={styles.button}>
+            Play
+          </Link>
+        </div>
       </div>
     </div>
   );

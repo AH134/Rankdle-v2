@@ -19,6 +19,24 @@ const Home = () => {
           name={"Valorant"}
           to={"/games/valorant"}
         />
+        <Card
+          src={"../images/__test__/valorant-card.webp"}
+          alt={"valorant-card"}
+          name={"Valorant"}
+          to={"/games/valorant"}
+        />
+        <Card
+          src={"../images/__test__/valorant-card.webp"}
+          alt={"valorant-card"}
+          name={"Valorant"}
+          to={"/games/valorant"}
+        />
+        <Card
+          src={"../images/__test__/valorant-card.webp"}
+          alt={"valorant-card"}
+          name={"Valorant"}
+          to={"/games/valorant"}
+        />
       </div>
     </div>
   );

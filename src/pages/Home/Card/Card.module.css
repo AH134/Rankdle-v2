@@ -1,7 +1,12 @@
+* {
+  font-family: inherit;
+}
+
 .card {
   overflow: hidden;
   border: 2px solid rgb(82, 82, 82);
   width: 20rem;
+  height: 25rem;
   margin: 0.5rem;
   border-radius: 15px;
 }
@@ -11,6 +16,8 @@
   justify-content: center;
   aspect-ratio: 16/9;
   overflow: hidden;
+  filter: brightness(65%);
+  transition: all 0.2s;
 }
 
 .image img {
@@ -18,16 +25,56 @@
   height: 100%;
 }
 
+.image:hover {
+  filter: brightness(100%);
+}
+
 .nameContainer {
   display: flex;
   align-items: center;
-  border: 1px solid yellow;
   height: 15%;
+  margin: 0.5rem;
 }
 .nameContainer p {
-  font-weight: 100;
+  font-size: 1.5rem;
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5rem;
 }
 
 .buttonContainer {
-  height: 10rem;
+  overflow: hidden;
+  width: 10rem;
+  height: 4rem;
+  border-radius: 15px;
+  border: 2px solid rgb(82, 82, 82);
+  margin: 0 0.3rem;
+}
+
+.button {
+  background: none;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: 300;
+  font-size: 1.3rem;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.button span {
+  font-weight: 300;
+}
+
+/* temp */
+.buttonContainer:hover {
+  border: 2px solid rgb(220, 187, 55);
+  cursor: pointer;
 }
