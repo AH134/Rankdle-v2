@@ -1,10 +1,11 @@
 .container {
+  margin: 0 10%;
   height: 100%;
 }
 
 .header {
   height: 80px;
-  border-bottom: 2px solid rgb(82, 82, 82);
+  border-bottom: 1px solid rgb(82, 82, 82);
 }
 
 .mainContainer {
@@ -14,7 +15,7 @@
 
 .sidebar {
   flex: 20rem;
-  border-right: 2px solid rgb(82, 82, 82);
+  border-right: 1px solid rgb(82, 82, 82);
   width: 10rem;
 }
 
@@ -24,9 +25,14 @@
 
 .stats {
   flex: 20rem;
+  border-left: 1px solid rgb(82, 82, 82);
+  width: 10rem;
 }
 
 @media (max-width: 767px) {
+  .container {
+    margin: 0 0;
+  }
   .sidebar {
     display: none;
   }
@@ -37,6 +43,10 @@
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
+  .container {
+    margin: 0 0;
+  }
+
   .stats {
     display: none;
   }

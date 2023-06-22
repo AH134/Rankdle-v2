@@ -1,0 +1,102 @@
+{
+  "games": [
+    {
+      "id": 0,
+      "name": "lol",
+      "rankList": [
+        "iron",
+        "bronze",
+        "silver",
+        "gold",
+        "platinum",
+        "diamond",
+        "masters",
+        "grandmaster",
+        "challenger"
+      ],
+      "clips": [
+        {
+          "clipNumber": 1,
+          "clipLink": "https://www.youtube-nocookie.com/embed/9B0yX0UIN9M",
+          "clipRank": "bronze",
+          "played": false
+        },
+        {
+          "clipNumber": 2,
+          "clipLink": "https://www.youtube-nocookie.com/embed/jwpvf16e1Yo",
+          "clipRank": "silver",
+          "played": false
+        },
+        {
+          "clipNumber": 3,
+          "clipLink": "https://www.youtube-nocookie.com/embed/9B0yX0UIN9M",
+          "clipRank": "gold",
+          "played": false
+        }
+      ]
+    },
+    {
+      "id": 0,
+      "name": "valorant",
+      "clips": [
+        {
+          "clipNumber": 1,
+          "clipLink": "https://www.youtube-nocookie.com/embed/9B0yX0UIN9M",
+          "played": false
+        },
+        {
+          "clipNumber": 2,
+          "clipLink": "https://www.youtube-nocookie.com/embed/9B0yX0UIN9M",
+          "played": false
+        },
+        {
+          "clipNumber": 3,
+          "clipLink": "https://www.youtube-nocookie.com/embed/9B0yX0UIN9M",
+          "played": false
+        }
+      ]
+    },
+    {
+      "id": 0,
+      "name": "apex",
+      "clips": [
+        {
+          "clipNumber": 1,
+          "clipLink": "https://www.youtube-nocookie.com/embed/9B0yX0UIN9M",
+          "played": false
+        },
+        {
+          "clipNumber": 2,
+          "clipLink": "https://www.youtube-nocookie.com/embed/9B0yX0UIN9M",
+          "played": false
+        },
+        {
+          "clipNumber": 3,
+          "clipLink": "https://www.youtube-nocookie.com/embed/9B0yX0UIN9M",
+          "played": false
+        }
+      ]
+    },
+    {
+      "id": 0,
+      "name": "csgo",
+      "clips": [
+        {
+          "clipNumber": 1,
+          "clipLink": "https://www.youtube-nocookie.com/embed/9B0yX0UIN9M",
+          "played": false
+        },
+        {
+          "clipNumber": 2,
+          "clipLink": "https://www.youtube-nocookie.com/embed/9B0yX0UIN9M",
+          "played": false
+        },
+        {
+          "clipNumber": 3,
+          "clipLink": "https://www.youtube-nocookie.com/embed/9B0yX0UIN9M",
+          "played": false
+        }
+      ]
+    }
+  ]
+}

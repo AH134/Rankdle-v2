@@ -1,0 +1,4 @@
+{
+  "/api/games": "/games",
+  "/api/games/:id": "/games/:id"
+}

@@ -4,7 +4,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 
 import { Root, Error, Home, Game, Submit } from "./pages";
-import { loader as gameLoader } from "./pages/Game";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +21,9 @@ const router = createBrowserRouter([
           {
             path: "games/:name",
             element: <Game />,
-            loader: gameLoader,
+            loader: async ({ params }) => {
+              return fetch(`http://localhost:3000/api/games/${params.name}`);
+            },
           },
           {
             path: "submit",

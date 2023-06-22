@@ -31,7 +31,7 @@ const Root = () => {
           <Outlet />
         </main>
 
-        <div className={styles.stats}>stats side</div>
+        <aside className={styles.stats}>stats side</aside>
       </div>
       <Modal isOpen={isModalOpen} handleModalClose={setModalClose}>
         {modalContent === "about" ? (
