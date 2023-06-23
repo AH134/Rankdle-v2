@@ -64,15 +64,22 @@ const Game = () => {
         {gameData.rankList.map((rank, index) => {
           return (
             <div key={index}>
-              <input
-                onChange={(e) => setSelectedRank(e.target.value)}
-                type="radio"
-                name="rank"
-                value={rank}
-                id={rank}
-                checked={selectedRank === rank}
-              />
-              <label htmlFor={rank}>{rank}</label>
+              <label htmlFor={rank}>
+                <input
+                  onChange={(e) => setSelectedRank(e.target.value)}
+                  type="radio"
+                  name="rank"
+                  value={rank}
+                  id={rank}
+                  checked={selectedRank === rank}
+                  style={{ display: "none" }} // temp
+                />
+                <img
+                  src={`/images/game/${gameData.name}-rank-icons/${rank}.webp`}
+                  alt="bronze"
+                  width={"50px"}
+                />
+              </label>
             </div>
           );
         })}
