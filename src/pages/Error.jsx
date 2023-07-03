@@ -1,5 +1,5 @@
-const Error = () => {
-  return <div>NOTHING HERE OR THE GAME IS NOT READY YET </div>;
-};
+function Error() {
+  return <div>Error</div>;
+}
 
 export default Error;
