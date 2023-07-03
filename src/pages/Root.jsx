@@ -1,5 +1,5 @@
 function Root() {
-  return <div>Root</div>;
+  return <div>Home Page</div>;
 }
 
 export default Root;
