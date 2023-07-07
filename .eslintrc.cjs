@@ -12,7 +12,6 @@ module.exports = {
   rules: {
     "react-refresh/only-export-components": "warn",
     "react/prop-types": "off",
-    quotes: ["error", "double"],
     semi: "error",
     eqeqeq: "error",
     "arrow-spacing": ["error", { before: true, after: true }],

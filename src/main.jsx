@@ -3,13 +3,26 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import Root from "./pages/Root";
-import Error from "./pages/Root";
+import Error from "./pages/Error";
+import Games from "./pages/Games";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
     errorElement: <Error />,
+    children: [
+      {
+        errorElement: <Error />,
+        children: [
+          {
+            path: "games/:name",
+            element: <Games />,
+            errorElement: <Error />,
+          },
+        ],
+      },
+    ],
   },
 ]);
 

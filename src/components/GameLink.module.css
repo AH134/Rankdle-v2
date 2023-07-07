@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 3px;
+  z-index: 10;
+}
+.container a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font: 1.5rem;
+  color: rgb(220, 220, 220);
+
+  padding: 3px;
+}
+
+.container:hover {
+  background-color: rgba(150, 150, 150, 0.504);
+  border-radius: 5px;
+}

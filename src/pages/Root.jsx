@@ -1,5 +1,5 @@
 import Header from "../components/Header";
-
+import { Outlet } from "react-router-dom";
 function Root() {
   const wrapperStyle = {
     width: "50vw",
@@ -8,10 +8,12 @@ function Root() {
 
   return (
     <div style={wrapperStyle}>
-      <div>
+      <div style={{ padding: "5px" }}>
         <Header />
       </div>
-      <div>hero</div>
+      <div style={{ padding: "5px" }}>
+        <Outlet />
+      </div>
     </div>
   );
 }
