@@ -26,7 +26,7 @@ function Header() {
               context={"League Of Legends"}
             />
             <GameLink
-              to={"/games/val"}
+              to={"/games/valorant"}
               gameName={"valorant"}
               context={"Valorant"}
             />
