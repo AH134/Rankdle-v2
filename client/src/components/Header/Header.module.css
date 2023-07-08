@@ -1,0 +1,55 @@
+:root {
+  --hover-color: aquamarine;
+}
+
+.wrapper {
+  margin-bottom: 0.5rem;
+}
+
+/* Top section */
+.topSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  height: 50%;
+  padding: 5px;
+}
+
+.topSection h1 {
+  font-size: 3rem;
+  letter-spacing: 0.1rem;
+}
+
+.topSection h1 a {
+  color: inherit;
+}
+
+.topSection h1 a:hover {
+  color: var(--hover-color);
+}
+
+.topSection ul {
+  display: flex;
+  justify-content: space-between;
+}
+
+.topSection li {
+  font-size: 1.3rem;
+  padding: 3px;
+}
+
+.topSection li:hover {
+  color: var(--hover-color);
+  cursor: pointer;
+}
+
+/* Bottom section */
+.bottomSection {
+  margin: 10px 0;
+}
+
+.bottomSection ul {
+  display: flex;
+  flex-wrap: wrap;
+}
