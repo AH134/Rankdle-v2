@@ -1,16 +1,10 @@
-import Header from "../components/Header";
+import Header from "../../components/Header/Header";
 import { Outlet } from "react-router-dom";
-function Root() {
-  const wrapperStyle = {
-    display: "flex",
-    flexDirection: "column",
-    width: "50vw",
-    margin: "0 auto",
-    minHeight: "100vh",
-  };
+import styles from "./Root.module.css";
 
+function Root() {
   return (
-    <div style={wrapperStyle}>
+    <div className={styles.wrapper}>
       <div style={{ padding: "5px" }}>
         <Header />
       </div>

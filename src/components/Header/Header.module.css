@@ -3,7 +3,7 @@
 }
 
 .wrapper {
-  height: 8rem;
+  margin-bottom: 0.5rem;
 }
 
 /* Top section */
@@ -46,9 +46,7 @@
 
 /* Bottom section */
 .bottomSection {
-  display: flex;
-  align-items: center;
-  height: 50%;
+  margin: 10px 0;
 }
 
 .bottomSection ul {

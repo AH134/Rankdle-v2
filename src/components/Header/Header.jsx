@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import GameLink from "./GameLink";
+import GameLink from "./GameLink/GameLink";
 import styles from "./Header.module.css";
 
 function Header() {
@@ -17,8 +17,8 @@ function Header() {
         </nav>
       </div>
       <hr className={styles.breaker} />
-      <div className={styles.bottomSection}>
-        <nav>
+      <div>
+        <nav className={styles.bottomSection}>
           <ul>
             <GameLink
               to={"/games/lol"}

@@ -36,25 +36,28 @@ const apexRankNames = [
   "predator",
 ];
 
-const rankIcons = {
-  lol: lolRankNames.map((rankName) => {
+const rankIconsList = {
+  lol: lolRankNames.map((rankName, index) => {
     return {
+      id: index,
       name: rankName,
       src: rankSrc(rankName, "lol"),
     };
   }),
-  valorant: valRankNames.map((rankName) => {
+  valorant: valRankNames.map((rankName, index) => {
     return {
+      id: index,
       name: rankName,
       src: rankSrc(rankName, "valorant"),
     };
   }),
-  apex: apexRankNames.map((rankName) => {
+  apex: apexRankNames.map((rankName, index) => {
     return {
+      id: index,
       name: rankName,
       src: rankSrc(rankName, "apex"),
     };
   }),
 };
 
-export default rankIcons;
+export default rankIconsList;
