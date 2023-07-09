@@ -1,17 +1,27 @@
 const mongoose = require("mongoose");
 
 const clipSchema = new mongoose.Schema({
-  game: {
-    type: mongoose.SchemaTypes.ObjectId,
-    ref: "Game",
-  },
   owner: String,
-  link: String,
+  link: {
+    type: String,
+    required: true,
+  },
+  rank: {
+    type: String,
+    required: true,
+  },
+  score: {
+    type: Number,
+    default: 0,
+  },
   played: {
     type: Boolean,
     default: false,
   },
-  rank: String,
+  game: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "Game",
+  },
   createdAt: {
     type: Date,
     default: () => Date.now(),

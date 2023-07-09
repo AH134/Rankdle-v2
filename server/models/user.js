@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { gameSchema } = require("./game");
 
 const userSchema = new mongoose.Schema({
   maxStreak: {
@@ -10,7 +9,12 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  games: [gameSchema],
+  games: [
+    {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "Game",
+    },
+  ],
 });
 
 userSchema.set("toJSON", {
