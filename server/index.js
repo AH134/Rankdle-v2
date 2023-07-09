@@ -1,5 +1,6 @@
-const express = require("express");
-const app = express();
+const app = require("./app");
 const config = require("./utils/config");
 
-app.listen(config.PORT, () => console.log("server running"));
+app.listen(config.PORT, () =>
+  console.log("[Server] Starting on port", config.PORT)
+);
