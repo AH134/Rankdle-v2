@@ -79,6 +79,7 @@ userRouter.delete("/:id", async (req, res) => {
   const userId = req.params.id;
 
   const games = await Game.find({ user: userId });
+  console.log(games);
   for (const game of games) {
     await Clip.deleteMany({ game: game._id });
   }
@@ -104,9 +105,19 @@ userRouter.put("/:id", async (req, res) => {
 
 userRouter.put("/update/:id", async (req, res) => {
   const userId = req.params.id;
+  const user = await User.findById(userId);
+  const date = new Date();
+
+  const userUpdateDate =
+    user.updatedAt.getFullYear() +
+    user.updatedAt.getMonth() +
+    user.updatedAt.getDate();
+
+  const currDate = date.getFullYear() + date.getMonth() + date.getDate();
+
+  const updateUser = userUpdateDate < currDate;
 
   const updateGameList = async () => {
-    const user = await User.findById(userId);
     const userGames = await Game.find({ user: userId });
     const games = await Game.find({ original: true });
 
@@ -116,30 +127,28 @@ userRouter.put("/update/:id", async (req, res) => {
       (game) => !userGamesList.includes(game)
     );
 
-    // JSUT ADD THE CLIPS FORM THE GAMES RIGHT AFTER
     for (const gameName of newGameList) {
-      // const game = await Game.find({ name: gameName });
       const newGame = new Game({
         name: gameName,
         original: false,
         user: user._id,
       });
-      // console.log(game);
-      // console.log(newGame);
       await newGame.save();
       user.games = user.games.concat(newGame);
     }
     await user.save();
   };
-  console.log(await User.findById(userId));
 
-
-  //UPDATES THE CLIPS FOR OTHER GAMES
   const updateClips = async () => {
     const games = await Game.find({ original: true });
+    console.log("games", games);
 
     for (const game of games) {
-      const userGame = await Game.find({
+      if (!game.clips.length) {
+        continue;
+      }
+
+      const userGame = await Game.findOne({
         user: userId,
         name: game.name,
       }).populate({
@@ -150,36 +159,32 @@ userRouter.put("/update/:id", async (req, res) => {
       const clips = await Clip.find({ game: game._id })
         .sort({ createdAt: -1 })
         .limit(3);
-      console.log(userGame[0]);
 
-      if (clips.length) {
-        if (userGame[0].clips[0].link === clips[0].link) {
-          for (const clip of clips) {
-            const newClip = new Clip({
-              owner: clip.owner,
-              link: clip.link,
-              rank: clip.rank,
-              game: game._id,
-              createdAt: clip.createdAt,
-            });
-    
-            if (newClip.name === "chess") {
-              console.log(newClip);
-            }
-    
-            await newClip.save();
-            userGame.clips = userGame.clips.concat(newClip._id);
-          }
-          await game.save();
+      for (const clip of clips) {
+        const newClip = new Clip({
+          owner: clip.owner,
+          link: clip.link,
+          rank: clip.rank,
+          game: userGame._id,
+          createdAt: clip.createdAt,
+        });
+
+        await newClip.save();
+        userGame.clips = userGame.clips.concat(newClip._id);
       }
-
+      userGame.save();
     }
   };
 
-  updateGameList();
-  updateClips();
+  const updateData = async () => {
+    if (updateUser) {
+      await updateGameList();
+      await updateClips();
+    }
+  };
+  await updateData();
 
-  const updateduser = await User.findById(userId).populate({
+  const updatedUser = await User.findById(userId).populate({
     path: "games",
     populate: {
       path: "clips",
@@ -188,7 +193,6 @@ userRouter.put("/update/:id", async (req, res) => {
     },
   });
 
-  res.status(201).json(updateduser);
+  res.status(201).json(updatedUser);
 });
-
 module.exports = userRouter;
