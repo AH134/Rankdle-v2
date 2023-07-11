@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 
 const clipSchema = new mongoose.Schema({
-  owner: String,
+  owner: {
+    type: String,
+    default: "Anonymous",
+  },
   link: {
     type: String,
     required: true,
