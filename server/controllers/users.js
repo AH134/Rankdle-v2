@@ -106,16 +106,6 @@ userRouter.put("/:id", async (req, res) => {
 userRouter.put("/update/:id", async (req, res) => {
   const userId = req.params.id;
   const user = await User.findById(userId);
-  const date = new Date();
-
-  const userUpdateDate =
-    user.updatedAt.getFullYear() +
-    user.updatedAt.getMonth() +
-    user.updatedAt.getDate();
-
-  const currDate = date.getFullYear() + date.getMonth() + date.getDate();
-
-  const updateUser = userUpdateDate < currDate;
 
   const updateGameList = async () => {
     const userGames = await Game.find({ user: userId });
@@ -141,7 +131,6 @@ userRouter.put("/update/:id", async (req, res) => {
 
   const updateClips = async () => {
     const games = await Game.find({ original: true });
-    console.log("games", games);
 
     for (const game of games) {
       if (!game.clips.length) {
@@ -177,10 +166,13 @@ userRouter.put("/update/:id", async (req, res) => {
   };
 
   const updateData = async () => {
-    if (updateUser) {
-      await updateGameList();
-      await updateClips();
-    }
+    await User.findByIdAndUpdate(
+      user.id,
+      { updatedAt: new Date() },
+      { new: true, timestamps: false, strict: false }
+    );
+    await updateGameList();
+    await updateClips();
   };
   await updateData();
 
