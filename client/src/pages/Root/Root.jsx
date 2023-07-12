@@ -5,8 +5,24 @@ import userService from "../../services/user";
 
 const loader = async () => {
   const getUser = JSON.parse(localStorage.getItem("user"));
-  if (getUser) {
-    const user = await userService.updateGame(getUser.id);
+
+  if (getUser.id) {
+    const user = await userService.getUser(getUser.id);
+
+    const date = new Date();
+    const userDate = new Date(user.updatedAt);
+
+    const userUpdateDate =
+      userDate.getFullYear() + userDate.getMonth() + userDate.getDate();
+    const currDate = date.getFullYear() + date.getMonth() + date.getDate();
+
+    const updateUser = userUpdateDate < currDate;
+
+    if (user && updateUser) {
+      const user = await userService.updateGame(getUser.id);
+      localStorage.setItem("user", JSON.stringify(user));
+      return user;
+    }
     localStorage.setItem("user", JSON.stringify(user));
     return user;
   }

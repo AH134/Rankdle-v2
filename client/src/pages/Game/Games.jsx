@@ -7,22 +7,22 @@ import styles from "./Game.module.css";
 function Games() {
   const user = useOutletContext();
   const gameLocation = useLocation();
-  const game = user.games.find(
-    (game) =>
-      game.name ===
-      gameLocation.pathname.slice(gameLocation.pathname.lastIndexOf("/") + 1)
+  const gameName = gameLocation.pathname.slice(
+    gameLocation.pathname.lastIndexOf("/") + 1
   );
-  const gameClips = game.clips;
+  const rankIcons = rankIconsList[gameName];
+  const [selectedRank, setSelectedRank] = useState("");
+  const [gameClips, setGameClips] = useState([]);
 
-  // const game = user.games.find((game) => game.name === "");
-  // console.log(game);
-
-  // useEffect(() => {
-  //   const resetSelectedRank = () => {
-  //     setSelectedRank({});
-  //   };
-  //   resetSelectedRank();
-  // }, [rankIcons, currentVideo]);
+  useEffect(() => {
+    user.games.find((game) => {
+      if (game.name === gameName) {
+        setGameClips(game.clips);
+        return;
+      }
+    });
+    setSelectedRank("");
+  }, [gameName, user.games]);
 
   return (
     <>
@@ -30,7 +30,7 @@ function Games() {
       <div className={styles.videoContainer}>
         {" "}
         <iframe
-          src={""}
+          src={gameClips.length ? gameClips[0].link : ""}
           title="YouTube video player"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
@@ -40,7 +40,7 @@ function Games() {
       <div>
         <div>level</div>
         <div className={styles.rankIconContainer}>
-          {/* {rankIcons &&
+          {rankIcons &&
             rankIcons.map((rank, index) => (
               <RankIcon
                 key={index}
@@ -48,7 +48,7 @@ function Games() {
                 selectedRank={selectedRank.name || ""}
                 setSelectedRank={setSelectedRank}
               />
-            ))} */}
+            ))}
         </div>
         <p>
           {/* Selected Rank:{" "}
