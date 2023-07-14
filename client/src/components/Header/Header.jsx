@@ -16,7 +16,7 @@ function Header() {
           </ul>
         </nav>
       </div>
-      <hr className={styles.breaker} />
+      <hr />
       <div>
         <nav className={styles.bottomSection}>
           <ul>

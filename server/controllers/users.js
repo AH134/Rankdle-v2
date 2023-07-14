@@ -61,25 +61,10 @@ userRouter.post("/", async (req, res) => {
   res.status(201).json(user);
 });
 
-userRouter.get("/:id", async (req, res) => {
-  const userId = req.params.id;
-  const user = await User.findById(userId).populate({
-    path: "games",
-    populate: {
-      path: "clips",
-      model: Clip,
-      options: { sort: { createdAt: -1 } },
-    },
-  });
-
-  res.status(200).json(user);
-});
-
 userRouter.delete("/:id", async (req, res) => {
   const userId = req.params.id;
 
   const games = await Game.find({ user: userId });
-  console.log(games);
   for (const game of games) {
     await Clip.deleteMany({ game: game._id });
   }
@@ -103,88 +88,110 @@ userRouter.put("/:id", async (req, res) => {
   res.status(200).end();
 });
 
-userRouter.put("/update/:id", async (req, res) => {
+userRouter.get("/:id", async (req, res) => {
   const userId = req.params.id;
-  const user = await User.findById(userId);
-
-  const updateGameList = async () => {
-    const userGames = await Game.find({ user: userId });
-    const games = await Game.find({ original: true });
-
-    const userGamesList = userGames.map((game) => game.name);
-    const gamesList = games.map((game) => game.name);
-    const newGameList = gamesList.filter(
-      (game) => !userGamesList.includes(game)
-    );
-
-    for (const gameName of newGameList) {
-      const newGame = new Game({
-        name: gameName,
-        original: false,
-        user: user._id,
-      });
-      await newGame.save();
-      user.games = user.games.concat(newGame);
-    }
-    await user.save();
-  };
-
-  const updateClips = async () => {
-    const games = await Game.find({ original: true });
-
-    for (const game of games) {
-      if (!game.clips.length) {
-        continue;
-      }
-
-      const userGame = await Game.findOne({
-        user: userId,
-        name: game.name,
-      }).populate({
-        path: "clips",
-        options: { sort: { createdAt: -1 } },
-      });
-
-      const clips = await Clip.find({ game: game._id })
-        .sort({ createdAt: -1 })
-        .limit(3);
-
-      for (const clip of clips) {
-        const newClip = new Clip({
-          owner: clip.owner,
-          link: clip.link,
-          rank: clip.rank,
-          game: userGame._id,
-          createdAt: clip.createdAt,
-        });
-
-        await newClip.save();
-        userGame.clips = userGame.clips.concat(newClip._id);
-      }
-      userGame.save();
-    }
-  };
-
-  const updateData = async () => {
-    await User.findByIdAndUpdate(
-      user.id,
-      { updatedAt: new Date() },
-      { new: true, timestamps: false, strict: false }
-    );
-    await updateGameList();
-    await updateClips();
-  };
-  await updateData();
-
-  const updatedUser = await User.findById(userId).populate({
+  const user = await User.findById(userId).populate({
     path: "games",
     populate: {
       path: "clips",
       model: Clip,
-      options: { sort: { createdAt: -1 } },
+      options: { sort: { createdAt: -1 }, limit: 3 },
     },
   });
 
-  res.status(201).json(updatedUser);
+  if (!user) {
+    return res.status(400).json({ error: "no user" });
+  }
+
+  const date = new Date();
+  const userDate = new Date(user.updatedAt);
+
+  const userUpdateDate =
+    userDate.getFullYear() + userDate.getMonth() + userDate.getDate();
+  const currDate = date.getFullYear() + date.getMonth() + date.getDate();
+
+  const updateUser = userUpdateDate < currDate;
+
+  if (updateUser) {
+    const updateGameList = async () => {
+      const userGames = await Game.find({ user: userId });
+      const games = await Game.find({ original: true });
+
+      const userGamesList = userGames.map((game) => game.name);
+      const gamesList = games.map((game) => game.name);
+      const newGameList = gamesList.filter(
+        (game) => !userGamesList.includes(game)
+      );
+
+      for (const gameName of newGameList) {
+        const newGame = new Game({
+          name: gameName,
+          original: false,
+          user: user._id,
+        });
+        await newGame.save();
+        user.games = user.games.concat(newGame);
+      }
+      await user.save();
+    };
+
+    const updateClips = async () => {
+      const games = await Game.find({ original: true });
+
+      for (const game of games) {
+        if (!game.clips.length) {
+          continue;
+        }
+
+        const userGame = await Game.findOne({
+          user: userId,
+          name: game.name,
+        }).populate({
+          path: "clips",
+          options: { sort: { createdAt: -1 } },
+        });
+
+        const clips = await Clip.find({ game: game._id })
+          .sort({ createdAt: -1 })
+          .limit(3);
+
+        for (const clip of clips) {
+          const newClip = new Clip({
+            owner: clip.owner,
+            link: clip.link,
+            rank: clip.rank,
+            game: userGame._id,
+            createdAt: clip.createdAt,
+          });
+
+          await newClip.save();
+          userGame.clips = userGame.clips.concat(newClip._id);
+        }
+        userGame.save();
+      }
+    };
+
+    const updateData = async () => {
+      await User.findByIdAndUpdate(
+        user.id,
+        { updatedAt: new Date() },
+        { new: true, timestamps: false, strict: false }
+      );
+      await updateGameList();
+      await updateClips();
+    };
+    await updateData();
+
+    const updatedUser = await User.findById(userId).populate({
+      path: "games",
+      populate: {
+        path: "clips",
+        model: Clip,
+        options: { sort: { createdAt: -1 }, limit: 3 },
+      },
+    });
+    return res.status(201).json(updatedUser);
+  }
+  res.status(201).json(user);
 });
 module.exports = userRouter;

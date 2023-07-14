@@ -6,7 +6,6 @@ function Star({ filled }) {
       <img
         src={`${filled ? "/images/star-filled.svg" : "/images/star-empty.svg"}`}
         alt="star"
-        width={"50px"}
       />
     </div>
   );

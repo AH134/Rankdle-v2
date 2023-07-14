@@ -1,34 +1,20 @@
-import Header from "../../components/Header/Header";
+import { Header } from "../../components";
 import { Outlet, useLoaderData } from "react-router-dom";
 import styles from "./Root.module.css";
 import userService from "../../services/user";
 
 const loader = async () => {
   const getUser = JSON.parse(localStorage.getItem("user"));
-  const user = await userService.getUser(getUser.id);
-
-  if (!user) {
-    const user = await userService.create();
+  let user = null;
+  if (getUser) {
+    user = await userService.getUser(getUser.id);
     localStorage.setItem("user", JSON.stringify(user));
-    return user;
   } else {
-    const date = new Date();
-    const userDate = new Date(user.updatedAt);
-
-    const userUpdateDate =
-      userDate.getFullYear() + userDate.getMonth() + userDate.getDate();
-    const currDate = date.getFullYear() + date.getMonth() + date.getDate();
-
-    const updateUser = userUpdateDate < currDate;
-
-    if (user && updateUser) {
-      const user = await userService.updateGame(getUser.id);
-      localStorage.setItem("user", JSON.stringify(user));
-      return user;
-    }
-    localStorage.setItem("user", JSON.stringify(user));
-    return user;
+    user = await userService.create();
   }
+  localStorage.setItem("user", JSON.stringify(user));
+
+  return user;
 };
 
 function Root() {

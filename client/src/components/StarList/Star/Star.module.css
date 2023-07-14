@@ -1,3 +1,13 @@
 .container {
   margin: 0 1rem;
 }
+
+.container img {
+  width: 5rem;
+}
+
+@media (max-width: 767px) {
+  .container img {
+    width: 100%;
+  }
+}

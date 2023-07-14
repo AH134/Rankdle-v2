@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  border: 2px solid yellow;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+}
+
+.played {
+  background-color: #80ffff;
+}
+
+.playing {
+  border: 2px solid grey !important;
+}

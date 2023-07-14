@@ -1,14 +1,30 @@
 import { useEffect, useState } from "react";
-import { useOutletContext, useLocation } from "react-router-dom";
-import rankIconsList from "../../utils/rankIconsList";
-import RankIcon from "../../components/RankIcon";
-import Button from "../../components/Button";
+import { useOutletContext, useLocation, useNavigate } from "react-router-dom";
 import styles from "./Game.module.css";
-import StarList from "../../components/StarList/StarList";
+import rankIconsList from "../../utils/rankIconsList";
+import userService from "../../services/user";
+import clipService from "../../services/clips";
+
+import {
+  RankIcon,
+  Button,
+  IFrame,
+  StarList,
+  ProgressBar,
+} from "../../components";
+
+const TempnoGame = () => {
+  return (
+    <div>
+      <h1>Work In Progress!</h1>
+    </div>
+  );
+};
 
 function Games() {
   const user = useOutletContext();
   const gameLocation = useLocation();
+  const navigate = useNavigate();
   const gameName = gameLocation.pathname.slice(
     gameLocation.pathname.lastIndexOf("/") + 1
   );
@@ -17,17 +33,24 @@ function Games() {
   const [selectedRank, setSelectedRank] = useState("");
   const [gameClips, setGameClips] = useState([]);
   const [currentClipIndex, setCurrentClipIndex] = useState(0);
+  const [hasClips, setHasClips] = useState();
   const [score, setScore] = useState(0);
 
   useEffect(() => {
     user.games.find((game) => {
       if (game.name === gameName) {
         setGameClips(game.clips);
-        return;
+        setHasClips(game.clips.length !== 0 ? true : false);
+        setScore(
+          game.clips[0].score + game.clips[1].score + game.clips[2].score
+        );
+        const initialClipIndex = game.clips.findIndex((clip) => !clip.played);
+        setCurrentClipIndex(initialClipIndex === -1 ? 2 : initialClipIndex);
+        console.log(initialClipIndex === -1);
       }
     });
     setSelectedRank("");
-  }, [gameName, user.games]);
+  }, [gameName, user.games, hasClips, score]);
 
   const handleSubmit = async () => {
     const selectedRankObj = gameRankIcons.find(
@@ -35,14 +58,15 @@ function Games() {
     );
     const guessDiff = Math.abs(selectedRank.id - selectedRankObj.id);
 
+    let newScore = score;
     switch (guessDiff) {
       case 0:
         console.log("you got 2 stars");
-        setScore(score + 2);
+        newScore += 2;
         break;
       case 1:
         console.log("you got 1 star");
-        setScore(score + 1);
+        newScore += 1;
         break;
       default:
         console.log("you got 0 stars");
@@ -53,8 +77,14 @@ function Games() {
       setCurrentClipIndex(currentClipIndex + 1);
     }
 
-    setSelectedRank("");
+    await clipService
+      .update(gameClips[currentClipIndex].id, {
+        score: newScore,
+        played: true,
+      })
+      .then((res) => console.log(res));
 
+    setSelectedRank("");
     const updatedClip = { ...gameClips[currentClipIndex], played: true };
     setGameClips(
       gameClips.map((clip) =>
@@ -66,72 +96,89 @@ function Games() {
 
   return (
     <>
-      <StarList score={score} />
-      <div className={styles.videoContainer}>
-        {" "}
-        <iframe
-          src={gameClips[currentClipIndex] && gameClips[currentClipIndex].link}
-          title="YouTube video player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-          className={styles.video}
-        ></iframe>
-      </div>
-      <div>
-        <div>level</div>
-        <div className={styles.rankIconContainer}>
-          {gameRankIcons &&
-            gameRankIcons.map((rank, index) => (
-              <RankIcon
-                key={index}
-                rank={rank}
-                selectedRank={selectedRank.name || ""}
-                setSelectedRank={setSelectedRank}
-              />
-            ))}
-        </div>
-        <p>
-          Selected Rank:{" "}
-          {selectedRank.name
-            ? selectedRank.name.charAt(0).toUpperCase() +
-              selectedRank.name.substring(1)
-            : "None"}
-        </p>
-        <div className={styles.buttonContainer}>
-          {gameClips[currentClipIndex - 1] && (
-            <Button
-              context={"Previous"}
-              handleClick={() => {
-                gameClips[currentClipIndex - 1] &&
-                  setCurrentClipIndex(currentClipIndex - 1);
-                setSelectedRank("");
-              }}
-            />
-          )}
-          <Button
-            context={"result"}
-            handleClick={() => {
-              console.log("result");
-              console.log(gameClips[currentClipIndex].played);
+      {hasClips ? (
+        <>
+          <button
+            onClick={() => {
+              localStorage.removeItem("user");
+              userService
+                .deleteUser(user.id)
+                .then(() => window.location.reload());
             }}
-          />
+          >
+            delete account
+          </button>
+          <StarList score={score} />
 
-          {gameClips[currentClipIndex + 1] &&
-          gameClips[currentClipIndex].played ? (
-            <Button
-              context={"Next"}
-              handleClick={() => {
-                gameClips[currentClipIndex + 1] &&
-                  setCurrentClipIndex(currentClipIndex + 1);
-                setSelectedRank("");
-              }}
-            />
-          ) : null}
-          {selectedRank !== "" && !gameClips[currentClipIndex].played ? (
-            <Button context={"Submit"} handleClick={handleSubmit} />
-          ) : null}
-        </div>
-      </div>
+          <div className={styles.videoContainer}>
+            <IFrame clips={gameClips} currentClipIndex={currentClipIndex} />
+          </div>
+          <ProgressBar clips={gameClips} currentClip={currentClipIndex} />
+
+          <div>
+            {/* work on level */}
+            <div style={{ display: "flex", alignItems: "center" }}></div>
+            <div className={styles.rankIconContainer}>
+              {gameRankIcons &&
+                gameRankIcons.map((rank, index) => (
+                  <RankIcon
+                    key={index}
+                    rank={rank}
+                    selectedRank={selectedRank.name || ""}
+                    setSelectedRank={setSelectedRank}
+                  />
+                ))}
+            </div>
+            <p>
+              Selected Rank:{" "}
+              {selectedRank.name
+                ? selectedRank.name.charAt(0).toUpperCase() +
+                  selectedRank.name.substring(1)
+                : "None"}
+            </p>
+            <div className={styles.buttonContainer}>
+              {gameClips[currentClipIndex - 1] && (
+                <Button
+                  context={"Previous"}
+                  handleClick={() => {
+                    if (gameClips[currentClipIndex - 1]) {
+                      setCurrentClipIndex(currentClipIndex - 1);
+                      navigate(-1);
+                    }
+                    setSelectedRank("");
+                  }}
+                />
+              )}
+              <Button
+                context={"result"}
+                handleClick={() => {
+                  console.log("result");
+                  console.log(gameClips[currentClipIndex].played);
+                }}
+              />
+
+              {gameClips[currentClipIndex + 1] &&
+              gameClips[currentClipIndex].played ? (
+                <Button
+                  context={"Next"}
+                  handleClick={() => {
+                    if (gameClips[currentClipIndex + 1]) {
+                      setCurrentClipIndex(currentClipIndex + 1);
+                      navigate(1);
+                    }
+                    setSelectedRank("");
+                  }}
+                />
+              ) : null}
+              {selectedRank !== "" && !gameClips[currentClipIndex].played ? (
+                <Button context={"Submit"} handleClick={handleSubmit} />
+              ) : null}
+            </div>
+          </div>
+        </>
+      ) : (
+        <TempnoGame />
+      )}
     </>
   );
 }
