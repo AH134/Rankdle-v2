@@ -5,10 +5,13 @@ import userService from "../../services/user";
 
 const loader = async () => {
   const getUser = JSON.parse(localStorage.getItem("user"));
+  const user = await userService.getUser(getUser.id);
 
-  if (getUser.id) {
-    const user = await userService.getUser(getUser.id);
-
+  if (!user) {
+    const user = await userService.create();
+    localStorage.setItem("user", JSON.stringify(user));
+    return user;
+  } else {
     const date = new Date();
     const userDate = new Date(user.updatedAt);
 
@@ -26,10 +29,6 @@ const loader = async () => {
     localStorage.setItem("user", JSON.stringify(user));
     return user;
   }
-
-  const user = await userService.create();
-  localStorage.setItem("user", JSON.stringify(user));
-  return user;
 };
 
 function Root() {

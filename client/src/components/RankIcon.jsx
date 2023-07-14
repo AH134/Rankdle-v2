@@ -12,7 +12,9 @@ function RankIcon({ rank, selectedRank, setSelectedRank }) {
           name="rank"
           value={rank.name}
           id={rank.name}
-          onChange={() => setSelectedRank(rank)}
+          onChange={() => {
+            setSelectedRank(rank);
+          }}
           checked={isSelected}
         />
         <img src={rank.src} alt={rank.name} style={selectedImgStyle} />
