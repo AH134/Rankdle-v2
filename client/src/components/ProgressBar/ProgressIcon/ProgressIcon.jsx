@@ -1,6 +1,7 @@
 import styles from "./ProgressIcon.module.css";
 
 function ProgressIcon({ played, isPlaying, context }) {
+  const completedColor = "#009900";
   const style = {
     display: "flex",
     alignItems: "center",
@@ -15,11 +16,11 @@ function ProgressIcon({ played, isPlaying, context }) {
     <div
       style={{
         ...style,
-        backgroundColor: played ? "#80ffff" : "",
-        border: isPlaying ? "2px solid grey" : "2px solid white",
+        backgroundColor: played ? completedColor : "",
+        border: isPlaying ? `2px solid white` : "2px solid white",
       }}
     >
-      {context}
+      <span style={{ fontSize: "1.5rem" }}>{context}</span>
     </div>
   );
 }

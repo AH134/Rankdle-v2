@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useOutletContext, useLocation, useNavigate } from "react-router-dom";
+import { useOutletContext, useLocation } from "react-router-dom";
 import styles from "./Game.module.css";
 import rankIconsList from "../../utils/rankIconsList";
 import userService from "../../services/user";
@@ -24,7 +24,6 @@ const TempnoGame = () => {
 function Games() {
   const user = useOutletContext();
   const gameLocation = useLocation();
-  const navigate = useNavigate();
   const gameName = gameLocation.pathname.slice(
     gameLocation.pathname.lastIndexOf("/") + 1
   );
@@ -39,18 +38,20 @@ function Games() {
   useEffect(() => {
     user.games.find((game) => {
       if (game.name === gameName) {
+        console.log(game.clips);
         setGameClips(game.clips);
         setHasClips(game.clips.length !== 0 ? true : false);
         setScore(
-          game.clips[0].score + game.clips[1].score + game.clips[2].score
+          game.clips.length !== 0
+            ? game.clips[0].score + game.clips[1].score + game.clips[2].score
+            : 0
         );
         const initialClipIndex = game.clips.findIndex((clip) => !clip.played);
         setCurrentClipIndex(initialClipIndex === -1 ? 2 : initialClipIndex);
-        console.log(initialClipIndex === -1);
       }
     });
     setSelectedRank("");
-  }, [gameName, user.games, hasClips, score]);
+  }, [gameName, user.games]);
 
   const handleSubmit = async () => {
     const selectedRankObj = gameRankIcons.find(
@@ -77,13 +78,12 @@ function Games() {
       setCurrentClipIndex(currentClipIndex + 1);
     }
 
-    await clipService
-      .update(gameClips[currentClipIndex].id, {
-        score: newScore,
-        played: true,
-      })
-      .then((res) => console.log(res));
+    await clipService.update(gameClips[currentClipIndex].id, {
+      score: newScore,
+      played: true,
+    });
 
+    setScore(newScore);
     setSelectedRank("");
     const updatedClip = { ...gameClips[currentClipIndex], played: true };
     setGameClips(
@@ -91,7 +91,6 @@ function Games() {
         clip.id !== gameClips[currentClipIndex].id ? clip : updatedClip
       )
     );
-    console.log(gameClips);
   };
 
   return (
@@ -143,7 +142,6 @@ function Games() {
                   handleClick={() => {
                     if (gameClips[currentClipIndex - 1]) {
                       setCurrentClipIndex(currentClipIndex - 1);
-                      navigate(-1);
                     }
                     setSelectedRank("");
                   }}
@@ -164,7 +162,6 @@ function Games() {
                   handleClick={() => {
                     if (gameClips[currentClipIndex + 1]) {
                       setCurrentClipIndex(currentClipIndex + 1);
-                      navigate(1);
                     }
                     setSelectedRank("");
                   }}
