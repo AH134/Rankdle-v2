@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root, { loader as rootLoader } from "./pages/Root/Root";
 import Error from "./pages/Error";
-import Games from "./pages/Game/Games";
+import Games, { loader as gameLoader } from "./pages/Game/Games";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -20,6 +20,7 @@ const router = createBrowserRouter([
             path: "games/:name",
             element: <Games />,
             errorElement: <Error />,
+            loader: gameLoader,
           },
         ],
       },

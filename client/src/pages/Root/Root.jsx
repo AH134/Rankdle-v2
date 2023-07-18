@@ -4,28 +4,33 @@ import styles from "./Root.module.css";
 import userService from "../../services/user";
 
 const loader = async () => {
-  const getUser = JSON.parse(localStorage.getItem("user"));
+  const userId = localStorage.getItem("user");
   let user = null;
-  if (getUser) {
-    user = await userService.getUser(getUser.id);
-    localStorage.setItem("user", JSON.stringify(user));
-  } else {
-    user = await userService.create();
-  }
-  localStorage.setItem("user", JSON.stringify(user));
 
-  return user;
+  if (!userId) {
+    user = await userService.create();
+  } else {
+    try {
+      user = await userService.getUser(userId);
+    } catch (err) {
+      localStorage.removeItem("user");
+      user = await userService.create();
+    }
+  }
+  localStorage.setItem("user", user.id);
+  const games = user.games;
+
+  return games;
 };
 
 function Root() {
-  const user = useLoaderData();
   return (
     <div className={styles.wrapper}>
       <div style={{ padding: "5px" }}>
         <Header />
       </div>
       <div style={{ padding: "5px", flex: "1" }}>
-        <Outlet context={user} />
+        <Outlet />
       </div>
     </div>
   );

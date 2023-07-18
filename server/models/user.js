@@ -2,14 +2,6 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    maxStreak: {
-      type: Number,
-      default: 0,
-    },
-    currStreak: {
-      type: Number,
-      default: 0,
-    },
     games: [
       {
         type: mongoose.SchemaTypes.ObjectId,

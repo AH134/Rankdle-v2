@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useOutletContext, useLocation } from "react-router-dom";
+import { useLoaderData, useOutletContext, useNavigate } from "react-router-dom";
 import styles from "./Game.module.css";
 import rankIconsList from "../../utils/rankIconsList";
 import userService from "../../services/user";
@@ -21,37 +21,34 @@ const TempnoGame = () => {
   );
 };
 
+const loader = async ({ params }) => {
+  const userId = localStorage.getItem("user");
+  const user = await userService.getUser(userId);
+  const gameData = user.games.find((game) => game.name === params.name);
+
+  let hasClips = false;
+  let overallScore = 0;
+  if (gameData.clips.length !== 0) {
+    hasClips = true;
+    overallScore = gameData.clips
+      .map((clip) => clip.score)
+      .reduce((acc, curr) => {
+        return acc + curr;
+      }, 0);
+  }
+
+  return [gameData, hasClips, overallScore];
+};
+
 function Games() {
-  const user = useOutletContext();
-  const gameLocation = useLocation();
-  const gameName = gameLocation.pathname.slice(
-    gameLocation.pathname.lastIndexOf("/") + 1
-  );
-  const gameRankIcons = rankIconsList[gameName];
+  const navigate = useNavigate();
+  const [gameData, hasClips, overallScore] = useLoaderData();
+  const gameRankIcons = rankIconsList[gameData.name];
 
   const [selectedRank, setSelectedRank] = useState("");
-  const [gameClips, setGameClips] = useState([]);
+  const [gameClips, setGameClips] = useState(gameData.clips);
   const [currentClipIndex, setCurrentClipIndex] = useState(0);
-  const [hasClips, setHasClips] = useState();
-  const [score, setScore] = useState(0);
-
-  useEffect(() => {
-    user.games.find((game) => {
-      if (game.name === gameName) {
-        console.log(game.clips);
-        setGameClips(game.clips);
-        setHasClips(game.clips.length !== 0 ? true : false);
-        setScore(
-          game.clips.length !== 0
-            ? game.clips[0].score + game.clips[1].score + game.clips[2].score
-            : 0
-        );
-        const initialClipIndex = game.clips.findIndex((clip) => !clip.played);
-        setCurrentClipIndex(initialClipIndex === -1 ? 2 : initialClipIndex);
-      }
-    });
-    setSelectedRank("");
-  }, [gameName, user.games]);
+  const [score, setScore] = useState(overallScore);
 
   const handleSubmit = async () => {
     const selectedRankObj = gameRankIcons.find(
@@ -59,15 +56,15 @@ function Games() {
     );
     const guessDiff = Math.abs(selectedRank.id - selectedRankObj.id);
 
-    let newScore = score;
+    let clipScore = 0;
     switch (guessDiff) {
       case 0:
         console.log("you got 2 stars");
-        newScore += 2;
+        clipScore += 2;
         break;
       case 1:
         console.log("you got 1 star");
-        newScore += 1;
+        clipScore += 1;
         break;
       default:
         console.log("you got 0 stars");
@@ -78,12 +75,19 @@ function Games() {
       setCurrentClipIndex(currentClipIndex + 1);
     }
 
-    await clipService.update(gameClips[currentClipIndex].id, {
-      score: newScore,
-      played: true,
-    });
+    clipService
+      .update(gameClips[currentClipIndex].id, {
+        score: clipScore,
+        played: true,
+      })
+      .then(() => {
+        gameData.clips[currentClipIndex].score = clipScore;
+        gameData.clips[currentClipIndex].played = true;
+        console.log(gameData.clips[currentClipIndex]);
+        localStorage.setItem("user", JSON.stringify(gameData));
+      });
 
-    setScore(newScore);
+    setScore(score + clipScore);
     setSelectedRank("");
     const updatedClip = { ...gameClips[currentClipIndex], played: true };
     setGameClips(
@@ -99,10 +103,11 @@ function Games() {
         <>
           <button
             onClick={() => {
-              localStorage.removeItem("user");
-              userService
-                .deleteUser(user.id)
-                .then(() => window.location.reload());
+              const user = localStorage.getItem("user");
+              userService.deleteUser(user).then(() => {
+                localStorage.removeItem("user");
+                navigate("/");
+              });
             }}
           >
             delete account
@@ -181,3 +186,4 @@ function Games() {
 }
 
 export default Games;
+export { loader };

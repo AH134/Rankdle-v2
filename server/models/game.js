@@ -9,6 +9,14 @@ const gameSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  maxStreak: {
+    type: Number,
+    default: 0,
+  },
+  currStreak: {
+    type: Number,
+    default: 0,
+  },
   clips: [
     {
       type: mongoose.SchemaTypes.ObjectId,
