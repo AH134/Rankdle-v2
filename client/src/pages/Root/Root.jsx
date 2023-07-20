@@ -1,32 +1,34 @@
 import { Header } from "../../components";
-import { Outlet, useLoaderData } from "react-router-dom";
+import { Outlet, useHref } from "react-router-dom";
 import styles from "./Root.module.css";
 import userService from "../../services/user";
 
 const loader = async () => {
-  const userId = localStorage.getItem("user");
-  let user = null;
+  const userData = localStorage.getItem("user");
+  const user = userData ? JSON.parse(userData).id : null;
+  let updatedUser = null;
 
-  if (!userId) {
-    user = await userService.create();
+  if (!user) {
+    updatedUser = await userService.create();
   } else {
     try {
-      user = await userService.getUser(userId);
+      updatedUser = await userService.getUser(user);
     } catch (err) {
-      localStorage.removeItem("user");
-      user = await userService.create();
+      localStorage.removeItem("updatedUser");
+      updatedUser = await userService.create();
     }
   }
-  localStorage.setItem("user", user.id);
-  const games = user.games;
 
-  return games;
+  localStorage.setItem("user", JSON.stringify(updatedUser));
+  return updatedUser;
 };
 
 function Root() {
+  const href = useHref();
   return (
     <div className={styles.wrapper}>
       <div style={{ padding: "5px" }}>
+        {/* isRootPage={href === "/"} */}
         <Header />
       </div>
       <div style={{ padding: "5px", flex: "1" }}>

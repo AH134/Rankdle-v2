@@ -5,7 +5,7 @@ function ProgressBar({ clips, currentClip }) {
   const hrStyle = {
     width: "41.6%",
     height: "0.2rem",
-    backgroundColor: clips[0].played ? "#009900" : "white",
+    backgroundColor: clips[0]?.played ? "#009900" : "white",
     border: "none",
   };
 

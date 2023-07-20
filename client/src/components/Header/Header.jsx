@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import GameLink from "./GameLink/GameLink";
 import styles from "./Header.module.css";
 
-function Header() {
+function Header({ isRootPage }) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.topSection}>
@@ -17,7 +17,7 @@ function Header() {
         </nav>
       </div>
       <hr />
-      <div>
+      <div style={{ display: `${isRootPage ? "none" : ""}` }}>
         <nav className={styles.bottomSection}>
           <ul>
             <GameLink
