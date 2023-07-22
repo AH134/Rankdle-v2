@@ -11,36 +11,32 @@ import {
   IFrame,
   StarList,
   ProgressBar,
+  Modal,
 } from "../../components";
-
-const TempnoGame = () => {
-  return (
-    <div>
-      <h1>Work In Progress!</h1>
-    </div>
-  );
-};
 
 const loader = ({ params }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const gameData = user.games.find((game) => game.name === params.name);
-  let hasClips = false;
-  let overallScore = 0;
 
-  if (gameData.clips.length !== 0) {
-    hasClips = true;
-    overallScore = gameData.clips
-      .map((clip) => clip.score)
-      .reduce((acc, curr) => {
-        return acc + curr;
-      }, 0);
+  if (gameData === undefined || gameData.clips.length === 0) {
+    throw new Response("Game is currently in progress", {
+      status: 404,
+      statusText: "WIP",
+    });
   }
-  return [gameData, hasClips, overallScore];
+
+  const overallScore = gameData.clips
+    .map((clip) => clip.score)
+    .reduce((acc, curr) => {
+      return acc + curr;
+    }, 0);
+
+  return [gameData, overallScore];
 };
 
 function Games() {
   const navigate = useNavigate();
-  const [gameData, hasClips, overallScore] = useLoaderData();
+  const [gameData, overallScore] = useLoaderData();
   const [selectedRank, setSelectedRank] = useState("");
   const [gameClips, setGameClips] = useState(gameData.clips);
   const [currentClipIndex, setCurrentClipIndex] = useState(0);
@@ -93,10 +89,24 @@ function Games() {
     );
   };
 
-  if (hasClips === false) {
-    return <TempnoGame />;
-  }
+  const handlePrevious = () => {
+    if (gameClips[currentClipIndex - 1]) {
+      setCurrentClipIndex(currentClipIndex - 1);
+    }
+    setSelectedRank("");
+  };
 
+  const handleNext = () => {
+    if (gameClips[currentClipIndex + 1] && gameClips[currentClipIndex].played) {
+      setCurrentClipIndex(currentClipIndex + 1);
+    }
+    setSelectedRank("");
+  };
+
+  const handleResult = () => {
+    console.log("result");
+    console.log(gameClips[currentClipIndex].played);
+  };
   return (
     <>
       <button
@@ -111,17 +121,15 @@ function Games() {
       >
         delete account
       </button>
-      <StarList score={score} />
+      <StarList score={score} starAmount={6} />
 
       <div className={styles.videoContainer}>
         <IFrame clips={gameClips} currentClipIndex={currentClipIndex} />
       </div>
 
-      <ProgressBar clips={gameClips} currentClip={currentClipIndex} />
+      <ProgressBar clips={gameClips} currentClipIndex={currentClipIndex} />
 
       <div>
-        {/* work on level */}
-        <div style={{ display: "flex", alignItems: "center" }}></div>
         <div className={styles.rankIconContainer}>
           {gameRankIcons &&
             gameRankIcons.map((rank, index) => (
@@ -133,49 +141,16 @@ function Games() {
               />
             ))}
         </div>
-        <p>
-          Selected Rank:{" "}
-          {selectedRank.name
-            ? selectedRank.name.charAt(0).toUpperCase() +
-              selectedRank.name.substring(1)
-            : "None"}
-        </p>
-        <div className={styles.buttonContainer}>
-          {gameClips[currentClipIndex - 1] && (
-            <Button
-              context={"Previous"}
-              handleClick={() => {
-                if (gameClips[currentClipIndex - 1]) {
-                  setCurrentClipIndex(currentClipIndex - 1);
-                }
-                setSelectedRank("");
-              }}
-            />
-          )}
-          <Button
-            context={"result"}
-            handleClick={() => {
-              console.log("result");
-              console.log(gameClips[currentClipIndex].played);
-            }}
-          />
 
-          {gameClips[currentClipIndex + 1] &&
-          gameClips[currentClipIndex].played ? (
-            <Button
-              context={"Next"}
-              handleClick={() => {
-                if (gameClips[currentClipIndex + 1]) {
-                  setCurrentClipIndex(currentClipIndex + 1);
-                }
-                setSelectedRank("");
-              }}
-            />
-          ) : null}
+        <div className={styles.buttonContainer}>
+          <Button context={"Previous"} handleClick={handlePrevious} />
+          <Button context={"Result"} handleClick={handleResult} />
           {selectedRank !== "" && !gameClips[currentClipIndex].played ? (
             <Button context={"Submit"} handleClick={handleSubmit} />
           ) : null}
+          <Button context={"Next"} handleClick={handleNext} />
         </div>
+        <Modal></Modal>
       </div>
     </>
   );
