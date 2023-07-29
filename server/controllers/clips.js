@@ -23,10 +23,10 @@ clipRouter.post("/", async (req, res) => {
 });
 
 clipRouter.put("/:id", async (req, res) => {
-  const { score, played } = req.body;
+  const { score, played, guessedRank } = req.body;
   await Clip.findByIdAndUpdate(
     req.params.id,
-    { score, played },
+    { score, played, guessedRank },
     { new: true, runValidators: true, context: "query" }
   );
 

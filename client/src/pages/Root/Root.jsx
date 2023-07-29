@@ -1,5 +1,5 @@
 import { Header } from "../../components";
-import { Outlet, useHref } from "react-router-dom";
+import { Outlet, useLoaderData } from "react-router-dom";
 import styles from "./Root.module.css";
 import userService from "../../services/user";
 
@@ -24,7 +24,6 @@ const loader = async () => {
 };
 
 function Root() {
-  const href = useHref();
   return (
     <div className={styles.wrapper}>
       <div style={{ padding: "5px" }}>

@@ -14,6 +14,10 @@ const clipSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    guessedRank: {
+      type: String,
+      default: "",
+    },
     score: {
       type: Number,
       default: 0,

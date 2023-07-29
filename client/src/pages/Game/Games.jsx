@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import styles from "./Game.module.css";
 import rankIconsList from "../../utils/rankIconsList";
 import userService from "../../services/user";
 import clipService from "../../services/clips";
-
 import {
   RankIcon,
   Button,
@@ -19,10 +18,13 @@ const loader = ({ params }) => {
   const gameData = user.games.find((game) => game.name === params.name);
 
   if (gameData === undefined || gameData.clips.length === 0) {
-    throw new Response("Game is currently in progress", {
-      status: 404,
-      statusText: "WIP",
-    });
+    throw new Response(
+      `Uh Oh! ${params.name.toUpperCase()} has no clips for today!`,
+      {
+        status: 404,
+        statusText: "Game No Clip",
+      }
+    );
   }
 
   const overallScore = gameData.clips
@@ -35,88 +37,95 @@ const loader = ({ params }) => {
 };
 
 function Games() {
-  const navigate = useNavigate();
   const [gameData, overallScore] = useLoaderData();
   const [selectedRank, setSelectedRank] = useState("");
   const [gameClips, setGameClips] = useState(gameData.clips);
   const [currentClipIndex, setCurrentClipIndex] = useState(0);
   const [score, setScore] = useState(overallScore);
   const gameRankIcons = rankIconsList[gameData.name];
+  const [showModal, setShowModal] = useState(false);
 
   const handleSubmit = async () => {
     const selectedRankObj = gameRankIcons.find(
       (rank) => rank.name === gameClips[currentClipIndex].rank
     );
     const guessDiff = Math.abs(selectedRank.id - selectedRankObj.id);
-
     let clipScore = 0;
-    switch (guessDiff) {
-      case 0:
-        console.log("you got 2 stars");
-        clipScore += 2;
-        break;
-      case 1:
-        console.log("you got 1 star");
-        clipScore += 1;
-        break;
-      default:
-        console.log("you got 0 stars");
+
+    if (guessDiff === 0) {
+      clipScore += 2;
+    } else {
+      clipScore += 1;
     }
 
-    const nextClip = gameClips[currentClipIndex + 1] !== undefined;
-
-    if (nextClip) {
-      setCurrentClipIndex(currentClipIndex + 1);
-    }
-
-    clipService.update(gameClips[currentClipIndex].id, {
-      score: clipScore,
-      played: true,
-    });
-
-    setScore(score + clipScore);
-    setSelectedRank("");
     const updatedClip = {
       ...gameClips[currentClipIndex],
       score: clipScore,
       played: true,
+      guessedRank: selectedRank.name,
     };
+
+    await clipService.update(gameClips[currentClipIndex].id, {
+      score: clipScore,
+      played: true,
+      guessedRank: selectedRank.name,
+    });
 
     setGameClips(
       gameClips.map((clip) =>
         clip.id !== gameClips[currentClipIndex].id ? clip : updatedClip
       )
     );
+    setScore(score + clipScore);
+    setSelectedRank("");
+    setShowModal(true);
+
+    userService
+      .getUser(JSON.parse(localStorage.getItem("user")).id)
+      .then((updatedUser) =>
+        localStorage.setItem("user", JSON.stringify(updatedUser))
+      );
   };
 
   const handlePrevious = () => {
     if (gameClips[currentClipIndex - 1]) {
       setCurrentClipIndex(currentClipIndex - 1);
+      setSelectedRank("");
     }
-    setSelectedRank("");
   };
 
   const handleNext = () => {
     if (gameClips[currentClipIndex + 1] && gameClips[currentClipIndex].played) {
       setCurrentClipIndex(currentClipIndex + 1);
+      setSelectedRank("");
     }
-    setSelectedRank("");
   };
 
   const handleResult = () => {
-    console.log("result");
-    console.log(gameClips[currentClipIndex].played);
+    if (gameClips[currentClipIndex].played) {
+      setShowModal(true);
+    }
   };
+
   return (
     <>
+      {showModal ? (
+        <Modal
+          currentClip={gameClips[currentClipIndex]}
+          selectedRank={selectedRank}
+          gameRankIcons={gameRankIcons}
+          setShowModal={setShowModal}
+        ></Modal>
+      ) : null}
+
       <button
         onClick={() => {
           const user = JSON.parse(localStorage.getItem("user")).id;
           userService.deleteUser(user).then(() => {
             console.log("deleted user", user);
             localStorage.removeItem("user");
-            navigate("/");
           });
+          window.location.reload();
         }}
       >
         delete account
@@ -144,13 +153,17 @@ function Games() {
 
         <div className={styles.buttonContainer}>
           <Button context={"Previous"} handleClick={handlePrevious} />
-          <Button context={"Result"} handleClick={handleResult} />
+
+          {gameClips[currentClipIndex].played && (
+            <Button context={"Result"} handleClick={handleResult} />
+          )}
+
           {selectedRank !== "" && !gameClips[currentClipIndex].played ? (
             <Button context={"Submit"} handleClick={handleSubmit} />
           ) : null}
+
           <Button context={"Next"} handleClick={handleNext} />
         </div>
-        <Modal></Modal>
       </div>
     </>
   );
