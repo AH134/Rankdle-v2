@@ -1,5 +1,5 @@
-import { Header } from "../../components";
-import { Outlet, useLoaderData } from "react-router-dom";
+import { Header, Submit } from "../../components";
+import { Outlet, useLocation } from "react-router-dom";
 import styles from "./Root.module.css";
 import userService from "../../services/user";
 
@@ -24,6 +24,9 @@ const loader = async () => {
 };
 
 function Root() {
+  const location = useLocation();
+  console.log(location);
+
   return (
     <div className={styles.wrapper}>
       <div style={{ padding: "5px" }}>
@@ -31,8 +34,10 @@ function Root() {
         <Header />
       </div>
       <div style={{ padding: "5px", flex: "1" }}>
+        {location.pathname === "/" && <Submit />}
         <Outlet />
       </div>
+      <footer>footer</footer>
     </div>
   );
 }

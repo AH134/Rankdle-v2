@@ -9,12 +9,14 @@ function Header({ isRootPage }) {
         <h1>
           <Link to={"/"}>Rankdle</Link>
         </h1>
-        <nav>
+        {/* <nav>
           <ul>
             <li>About</li>
-            <li>Settings</li>
+            <li className={styles.navItems}>
+              <Link to={"/submit"}>Submit</Link>
+            </li>
           </ul>
-        </nav>
+        </nav> */}
       </div>
       <hr />
       <div style={{ display: `${isRootPage ? "none" : ""}` }}>

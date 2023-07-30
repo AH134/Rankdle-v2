@@ -18,13 +18,10 @@ const loader = ({ params }) => {
   const gameData = user.games.find((game) => game.name === params.name);
 
   if (gameData === undefined || gameData.clips.length === 0) {
-    throw new Response(
-      `Uh Oh! ${params.name.toUpperCase()} has no clips for today!`,
-      {
-        status: 404,
-        statusText: "Game No Clip",
-      }
-    );
+    throw new Response(`Uh Oh! ${params.name.toUpperCase()} has no clips!`, {
+      status: 404,
+      statusText: "Game No Clip",
+    });
   }
 
   const overallScore = gameData.clips
@@ -165,6 +162,7 @@ function Games() {
           <Button context={"Next"} handleClick={handleNext} />
         </div>
       </div>
+      <hr />
     </>
   );
 }

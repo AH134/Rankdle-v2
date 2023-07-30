@@ -53,3 +53,12 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+.navItems a {
+  color: white;
+}
+
+.navItems a:hover {
+  color: var(--hover-color);
+  cursor: pointer;
+}

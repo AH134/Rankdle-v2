@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  justify-content: space-around;
+}
+.videoWrapper {
+  width: 50%;
+  aspect-ratio: 16/9;
+}
+
+.videoWrapper iframe {
+  border: 2px solid rgb(140, 140, 140);
+}
+
+.selector {
+  display: flex;
+  justify-content: top center;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+.selector p {
+  margin-right: 0.5rem;
+}
+
+.selector select {
+  color: white;
+  font-size: 80%;
+  margin-left: 0.5rem;
+  width: 20rem;
+  min-height: 3rem;
+  background-color: #121212;
+  border: 1px solid grey;
+  cursor: pointer;
+}
