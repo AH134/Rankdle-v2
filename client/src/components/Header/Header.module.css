@@ -62,3 +62,7 @@
   color: var(--hover-color);
   cursor: pointer;
 }
+
+.breaker {
+  border-color: rgba(150, 150, 150, 0.8);
+}

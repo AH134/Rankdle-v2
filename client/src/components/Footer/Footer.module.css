@@ -1,0 +1,15 @@
+.container {
+  margin-top: 3rem;
+  height: 5rem;
+}
+
+.breaker {
+  border-color: rgba(150, 150, 150, 0.8);
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  align-items: center;
+}

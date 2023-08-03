@@ -1,4 +1,4 @@
-import { Header, Submit } from "../../components";
+import { Header, Submit, Footer } from "../../components";
 import { Outlet, useLocation } from "react-router-dom";
 import styles from "./Root.module.css";
 import userService from "../../services/user";
@@ -25,7 +25,6 @@ const loader = async () => {
 
 function Root() {
   const location = useLocation();
-  console.log(location);
 
   return (
     <div className={styles.wrapper}>
@@ -37,7 +36,7 @@ function Root() {
         {location.pathname === "/" && <Submit />}
         <Outlet />
       </div>
-      <footer>footer</footer>
+      <Footer />
     </div>
   );
 }

@@ -6,3 +6,4 @@ export { default as RankIcon } from "./RankIcon";
 export { default as StarList } from "./StarList/StarList";
 export { default as Modal } from "./Modal/Modal";
 export { default as Submit } from "./Submit/Submit";
+export { default as Footer } from "./Footer/Footer";

@@ -7,6 +7,7 @@
   height: 100%;
   width: 100%;
 }
+
 .bgFilter {
   display: flex;
   align-items: center;
@@ -19,8 +20,11 @@
   background-color: #121212;
   width: 25rem;
 
-  border: 2px solid purple;
-}
+  padding: 10px;
+
+  border: 1px solid grey;
+  border-radius: 5px;
+}   
 
 .top {
   display: flex;

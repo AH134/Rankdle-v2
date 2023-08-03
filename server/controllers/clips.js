@@ -11,7 +11,7 @@ clipRouter.get("/", async (req, res) => {
 clipRouter.post("/", async (req, res) => {
   const clipGame = req.query.game;
   const clip = req.body;
-  const game = await Game.findOne({ name: clipGame });
+  const game = await Game.findOne({ name: clipGame, original: true });
 
   const newClip = new Clip({ ...clip, game: game._id });
   game.clips = game.clips.concat(newClip._id);

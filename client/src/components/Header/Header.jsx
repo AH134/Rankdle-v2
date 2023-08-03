@@ -1,24 +1,22 @@
 import { Link } from "react-router-dom";
 import GameLink from "./GameLink/GameLink";
 import styles from "./Header.module.css";
+import useCountdownTimer from "../../hooks/useCountdownTimer";
 
 function Header({ isRootPage }) {
+  const { hours, minutes, seconds } = useCountdownTimer();
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.topSection}>
         <h1>
           <Link to={"/"}>Rankdle</Link>
         </h1>
-        {/* <nav>
-          <ul>
-            <li>About</li>
-            <li className={styles.navItems}>
-              <Link to={"/submit"}>Submit</Link>
-            </li>
-          </ul>
-        </nav> */}
+        <h2>
+          Resets In {hours}:{minutes}:{seconds} UTC
+        </h2>
       </div>
-      <hr />
+      <hr className={styles.breaker} />
       <div style={{ display: `${isRootPage ? "none" : ""}` }}>
         <nav className={styles.bottomSection}>
           <ul>

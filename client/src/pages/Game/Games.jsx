@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLoaderData } from "react-router-dom";
 import styles from "./Game.module.css";
 import rankIconsList from "../../utils/rankIconsList";
@@ -30,17 +30,25 @@ const loader = ({ params }) => {
       return acc + curr;
     }, 0);
 
-  return [gameData, overallScore];
+  const gameRankIcons = rankIconsList[gameData.name];
+  
+  return [gameData, overallScore, gameRankIcons];
 };
 
 function Games() {
-  const [gameData, overallScore] = useLoaderData();
+  const [gameData, overallScore, gameRankIcons] = useLoaderData();
   const [selectedRank, setSelectedRank] = useState("");
   const [gameClips, setGameClips] = useState(gameData.clips);
   const [currentClipIndex, setCurrentClipIndex] = useState(0);
   const [score, setScore] = useState(overallScore);
-  const gameRankIcons = rankIconsList[gameData.name];
   const [showModal, setShowModal] = useState(false);
+  
+
+  useEffect(() => {
+    setGameClips(gameData.clips);
+    setScore(overallScore);
+  }, [gameData]);
+
 
   const handleSubmit = async () => {
     const selectedRankObj = gameRankIcons.find(
@@ -49,11 +57,14 @@ function Games() {
     const guessDiff = Math.abs(selectedRank.id - selectedRankObj.id);
     let clipScore = 0;
 
-    if (guessDiff === 0) {
-      clipScore += 2;
-    } else {
-      clipScore += 1;
-    }
+    switch (guessDiff) {
+      case 0:
+        clipScore = 2;
+        break;
+      case 1:
+        clipScore = 1;
+        break;
+    } 
 
     const updatedClip = {
       ...gameClips[currentClipIndex],
@@ -162,7 +173,6 @@ function Games() {
           <Button context={"Next"} handleClick={handleNext} />
         </div>
       </div>
-      <hr />
     </>
   );
 }
