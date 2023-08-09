@@ -1,15 +1,36 @@
 .container {
-  margin-top: 3rem;
-  height: 5rem;
+  display: flex;
+  flex-direction: column;
+  height: 3rem;
 }
 
 .breaker {
+  margin-bottom: 0.2rem;
   border-color: rgba(150, 150, 150, 0.8);
 }
 
 .content {
   display: flex;
   justify-content: space-between;
-  height: 100%;
   align-items: center;
+}
+
+.content p {
+  font-size: 1rem;
+}
+
+.content a {
+  color: white;
+}
+
+.content a:hover {
+  color: aquamarine;
+}
+
+.rightContent ul {
+  display: flex;
+}
+
+.rightContent li {
+  margin: 0.1rem;
 }

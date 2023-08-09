@@ -1,4 +1,5 @@
 import styles from "./Footer.module.css";
+import FooterIcon from "./FooterIcon/FooterIcon";
 
 function Footer() {
   return (
@@ -7,9 +8,19 @@ function Footer() {
       <div className={styles.content}>
         <p>
           Inspired by
-          <a href="rankdle.com"> Rankdle.com</a>
+          <a href="https://rankdle.com"> Rankdle.com</a>
         </p>
-        <nav>yo</nav>
+        <nav className={styles.rightContent}>
+          <ul>
+            <li>
+              <FooterIcon
+                src={"/images/github.svg"}
+                link={"https://github.com/AH134/Rankdle-v2"}
+                context={"github"}
+              />
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   );

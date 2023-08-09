@@ -17,7 +17,7 @@ const loader = ({ params }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const gameData = user.games.find((game) => game.name === params.name);
 
-  if (gameData === undefined || gameData.clips.length === 0) {
+  if (gameData === undefined || gameData.clips.length < 3) {
     throw new Response(`Uh Oh! ${params.name.toUpperCase()} has no clips!`, {
       status: 404,
       statusText: "Game No Clip",
@@ -31,7 +31,7 @@ const loader = ({ params }) => {
     }, 0);
 
   const gameRankIcons = rankIconsList[gameData.name];
-  
+
   return [gameData, overallScore, gameRankIcons];
 };
 
@@ -42,13 +42,11 @@ function Games() {
   const [currentClipIndex, setCurrentClipIndex] = useState(0);
   const [score, setScore] = useState(overallScore);
   const [showModal, setShowModal] = useState(false);
-  
 
   useEffect(() => {
     setGameClips(gameData.clips);
     setScore(overallScore);
-  }, [gameData]);
-
+  }, [gameData, overallScore]);
 
   const handleSubmit = async () => {
     const selectedRankObj = gameRankIcons.find(
@@ -64,7 +62,7 @@ function Games() {
       case 1:
         clipScore = 1;
         break;
-    } 
+    }
 
     const updatedClip = {
       ...gameClips[currentClipIndex],
@@ -125,27 +123,11 @@ function Games() {
           setShowModal={setShowModal}
         ></Modal>
       ) : null}
-
-      <button
-        onClick={() => {
-          const user = JSON.parse(localStorage.getItem("user")).id;
-          userService.deleteUser(user).then(() => {
-            console.log("deleted user", user);
-            localStorage.removeItem("user");
-          });
-          window.location.reload();
-        }}
-      >
-        delete account
-      </button>
       <StarList score={score} starAmount={6} />
-
       <div className={styles.videoContainer}>
         <IFrame clips={gameClips} currentClipIndex={currentClipIndex} />
       </div>
-
       <ProgressBar clips={gameClips} currentClipIndex={currentClipIndex} />
-
       <div>
         <div className={styles.rankIconContainer}>
           {gameRankIcons &&
@@ -158,7 +140,6 @@ function Games() {
               />
             ))}
         </div>
-
         <div className={styles.buttonContainer}>
           <Button context={"Previous"} handleClick={handlePrevious} />
 

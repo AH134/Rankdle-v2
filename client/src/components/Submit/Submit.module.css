@@ -1,3 +1,8 @@
+.outerContainer {
+  display: flex;
+  flex-direction: column;
+}
+
 .container {
   display: flex;
   justify-content: space-around;
@@ -11,25 +16,39 @@
   border: 2px solid rgb(140, 140, 140);
 }
 
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
 .selector {
   display: flex;
   justify-content: top center;
   flex-direction: column;
   align-items: center;
   font-size: 1.5rem;
-}
-
-.selector p {
-  margin-right: 0.5rem;
+  margin-bottom: 5px;
 }
 
 .selector select {
   color: white;
   font-size: 80%;
-  margin-left: 0.5rem;
   width: 20rem;
   min-height: 3rem;
   background-color: #121212;
   border: 1px solid grey;
   cursor: pointer;
+}
+
+.input {
+  color: white;
+  font-size: 1rem;
+  width: 20rem;
+  min-height: 3rem;
+  background-color: #121212;
+  border: 1px solid grey;
+  margin-bottom: 10px;
 }

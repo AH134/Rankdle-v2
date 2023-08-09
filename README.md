@@ -1,7 +1,7 @@
 # Rankdle-v2
 
 Rankdle-v2 is inspired by [Rankdle](https://rankdle.com/).
-![Image 1](image.png)
+![game-preview](./game-preview.png =20px)
 This project is projecting the concepts that I've learned from [FSO](https://fullstackopen.com/en/) with the addition of [react-router-dom](https://reactrouter.com/en/main).
 
 # Installation
